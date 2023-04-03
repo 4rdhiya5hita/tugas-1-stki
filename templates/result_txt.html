@@ -9,19 +9,20 @@
     <style>
 		body {
 			background-color: darkcyan;
+            /* background-color: #6ca9cc;  */
 		}
 	</style>
 </head>
 <body>
     <div class="container mt-lg-3">
-        <h3 style="color: aliceblue;">Result of Data Retrieval with Text Input</h3>
+        <h3 style="color: aliceblue;">Result of Data Retrieval with TXT File Input</h3>
         <div class="card m-lg-4">
             <div class="card-header">
                 This is the original text:
             </div>
             <div class="card-body">
                 <blockquote class="blockquote">
-                    <p> {{ result.result }} </p>
+                    <p> {{ result.input_text }} </p>
                 </blockquote>  
             </div>
         </div>
@@ -33,7 +34,7 @@
             <div class="card-body">
                 <blockquote class="blockquote">
                     <i class="fa fa-quote-left">
-                        <p> {{ result.result }} </p>
+                        <p> {{ result.final_sentence }} </p>
                     </i>
                 </blockquote>  
             </div>

@@ -10,27 +10,28 @@
     <style>
 		body {
 			background-color: darkcyan;
+            /* background-color: #6ca9cc;  */
 		}
 	</style>
 </head>
 <body>
     <div class="container mt-lg-3">
-        <form action="/data_retrieval_txt" method="post" enctype="multipart/form-data">
-            <h3 style="color: aliceblue;">Data Retrieval via TXT</h3>
+        <form action="/data_retrieval_text" method="POST">
+            <h3 style="color: aliceblue;">Data Retrieval</h3>
             <div class="card m-lg-4">
                 <div class="card-header">
-                    Input File Model (.txt)
+                    Input Text Model (TEXT)
                 </div>
                 <div class="card-body">
                     <blockquote class="blockquote">
-                            <label for="file">Upload your .txt file down here:</label>
-                            <input class="form-control" type="file" name="file" id="file">                   
+                        <label for="input_text">Enter text:</label>
+                        <input class="form-control" placeholder="Input Yout Text Here" type="text" id="input_text" name="input_text">                    
                     </blockquote>
                 </div>
             </div>            
             
             <div class="d-grid gap-2">
-                <input class="btn btn-warning" type="submit" value="Upload">
+                <input class="btn btn-warning" type="submit" value="Submit">
             </div>
         </form>
     </div>
