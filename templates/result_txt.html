@@ -18,11 +18,13 @@
         <h3 style="color: aliceblue;">Result of Data Retrieval with TXT File Input</h3>
         <div class="card m-lg-4">
             <div class="card-header">
-                This is the original text:
+                <!-- This is the original text: -->
+                Your Search Word
             </div>
             <div class="card-body">
                 <blockquote class="blockquote">
-                    <p> {{ result.input_text }} </p>
+                    <!-- <p> {{ result.input_text }} </p> -->
+                    <p> {{ search_word }} </p>
                 </blockquote>  
             </div>
         </div>
@@ -31,14 +33,32 @@
             <div class="card-header">
                 This is your data retrieval result with final_sentence (wnl & porter):
             </div>
-            <div class="card-body">
-                <blockquote class="blockquote">
-                    <i class="fa fa-quote-left">
-                        <p> {{ result.final_sentence }} </p>
-                    </i>
-                </blockquote>  
+            <div class="row">
+                <div class="col">
+                    <div class="card-body">
+                        <blockquote class="blockquote">
+                            <i class="fa fa-quote-left">
+                                <!-- <p> {{ result.final_sentence }} </p> -->
+                                <!-- <p> {{ result.search_word }} </p> -->
+                                <p> {{ result.arr_doc1 }} </p>
+                                <p> Count in Document 1 : {{ result.count1 }} </p>
+                            </i>
+                        </blockquote>  
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card-body">
+                        <blockquote class="blockquote">
+                            <i class="fa fa-quote-left">
+                                <!-- <p> {{ result.final_sentence }} </p> -->
+                                <p> {{ result.arr_doc2 }} </p>
+                                <p> Count in Document 2 : {{ result.count2 }} </p>
+                            </i>
+                        </blockquote>  
+                    </div>
+                </div>
             </div>
-        </div>            
+        </div>          
         
         <div class="d-grid gap-2">
             <a href="/" class="btn btn-warning">Go Back</a>
