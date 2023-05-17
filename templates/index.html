@@ -62,6 +62,11 @@
             $("#toggleButtonTxt").click(function () {
                 $("#divTxt").collapse('toggle');
             });
+		});
+        $(document).ready(function(){
+			$("#toggleButtonBoolean").click(function(){
+				$("#divBoolean").collapse('toggle');
+			});
         });
 
         function updateValue(checkbox) {
@@ -101,8 +106,9 @@
                         data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                         onclick="toggleCollapse()">
                         TXT
-                    </button>
-                </div>                
+                    </button>            
+                    <!-- <hr> -->
+                </div>  
             </div>
 
             <div id="divText" class="container collapse">
@@ -184,8 +190,8 @@
                 </form>
                 <!-- </div> -->
             </div>
-
-            <div id="divTxt" class="container collapse">
+    
+            <div id="divTxt" class="container collapse" style="">
                 <!-- <div id="txt" class="hidden"> -->
                 <!-- <div id="collapse-content-txt" class="container collapse"> -->
                 <form action="/data_retrieval_txt" method="post" enctype="multipart/form-data">
