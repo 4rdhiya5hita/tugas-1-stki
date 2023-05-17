@@ -100,7 +100,7 @@ def boolean_retrieval(documents):
                     result = bin(int(operand1, 2) & int(operand2, 2))[2:].zfill(len(operand1))
                 elif term == 'OR':
                     result = bin(int(operand1, 2) | int(operand2, 2))[2:].zfill(len(operand1))
-            stack.append(list(result))
+            stack.append(result)
         else:
             stack.append(term)
 
@@ -122,12 +122,15 @@ def return_result(documents, query):
     query_terms = re.findall(r'\(|\)|\w+|\S+\s*', query)
     binary_values = [documents_containing_term(term, tf_df) or term for term in query_terms]
     results = boolean_retrieval(binary_values)
-    matching_documents = get_matching_documents(documents, results)
-    result = {
-        'doc': matching_documents,
-        'text': [documents[doc_id] for doc_id in matching_documents]
-    }
-    return result
+    matching_documents = []
+    for idx, query in enumerate(results, start=1):
+        if query == '1':
+            matching_documents.append(idx)
+            print("Document", idx, ":", documents[idx])
+    tf=print(tf_df)
+    return matching_documents, tf
+
+return_result(documents, 'blue AND color NOT sky')
 
 # return {'doc': result, 'text': [documents[doc_id] for doc_id in result]}
 
