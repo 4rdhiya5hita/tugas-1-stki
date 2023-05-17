@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Simple Data Retrieval</title>
 
     <style>
         body {
-			background-color: aliceblue;
-		}
-		.hidden {
-			display: none;
-		}
+            background-color: aliceblue;
+        }
+
+        .hidden {
+            display: none;
+        }
+
         #myCollapsible {
-			transition: height 0.5s, opacity 0.5s;
-		}
-	</style>
-	<!-- <script>
+            transition: height 0.5s, opacity 0.5s;
+        }
+    </style>
+    <!-- <script>
 		function showTxt() {
 			var divText = document.getElementById("text");
             var divTxt = document.getElementById("txt");
@@ -35,162 +39,234 @@
 		}
 	</script> -->
     <script>
-		// function toggleCollapse() {
-		// 	var content_text = document.getElementById("collapse-content-text");
+        // function toggleCollapse() {
+        // 	var content_text = document.getElementById("collapse-content-text");
         //     var content_txt = document.getElementById("collapse-content-txt");
-		// 	if (content_txt.style.display === "none") {
-		// 		content_txt.style.display = "block";
+        // 	if (content_txt.style.display === "none") {
+        // 		content_txt.style.display = "block";
         //         content_text.style.display = "none";
 
-		// 	} else {
-		// 		content_txt.style.display = "none";
+        // 	} else {
+        // 		content_txt.style.display = "none";
         //         content_text.style.display = "block";
-		// 	}
-		// }
+        // 	}
+        // }
 
-        $(document).ready(function(){
-			$("#toggleButtonText").click(function(){
-				$("#divText").collapse('toggle');
-			});
-		});
+        $(document).ready(function () {
+            $("#toggleButtonText").click(function () {
+                $("#divText").collapse('toggle');
+            });
+        });
 
-        $(document).ready(function(){
-			$("#toggleButtonTxt").click(function(){
-				$("#divTxt").collapse('toggle');
-			});
-		});
-	</script>
+        $(document).ready(function () {
+            $("#toggleButtonTxt").click(function () {
+                $("#divTxt").collapse('toggle');
+            });
+        });
+
+        function updateValue(checkbox) {
+            if(checkbox.checked){
+                checkbox.value = 1;
+            } else {
+                checkbox.value = 0;
+            }
+        }
+    </script>
 
 </head>
+
 <body>
     <!-- <img src="{{ image_url }}" alt="My Image"> -->
     <div class="container mt-lg-3">
         <div class="card" style="
             width: 100%;
-            height: fit-content;
+            height: max-content;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            text-align: center;"
-            >
+            text-align: center;">
             <div class="card-header">
                 <h3>Simple Data Retrieval with Python</h3>
-                Choose Input Type Here!
+                with problem solving sequence
             </div>
-            <div class="card-body mb-3" style="height: 50px;">
-                <div class="form-check">
-                    <button id="toggleButtonText" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" 
-                        aria-expanded="false" aria-controls="collapseExample" onclick="toggleCollapse()">
+            Choose Input Type Here:
+            <div class="row m-3">
+                <div class="col">
+                    <button id="toggleButtonText" style="width: 100%;" class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                        onclick="toggleCollapse()">
                         TEXT
                     </button>
-                    <button id="toggleButtonTxt" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" 
-                        aria-expanded="false" aria-controls="collapseExample" onclick="toggleCollapse()">
+                </div>
+                <div class="col">
+                    <button id="toggleButtonTxt" style="width: 100%;" class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                        onclick="toggleCollapse()">
                         TXT
-                    </button>            
-                    <!-- <hr> -->
-                </div>  
+                    </button>
+                </div>                
             </div>
 
-            <div id="divText" class="container collapse" style="">
+            <div id="divText" class="container collapse">
                 <!-- Your collapsible content goes here -->
                 <!-- <div id="text"> -->
-                <!-- <div id="collapse-content-text" class="container collapse" style=""> -->
-                    <!-- INPUT TEXT {BLOCK / TERLIHAT} -->
-                    <form action="/data_retrieval_text" method="POST">
-                        <div class="card m-lg-4">
-                            <div class="card-header">
-                                <h3>Data Retrieval via Text</h3>
-                                Input Text Model (TEXT)
+                <!-- <div id="collapse-content-text" class="container collapse"> -->
+                <form action="/data_retrieval_text" method="POST">
+                <!-- INPUT TEXT {BLOCK / TERLIHAT} -->
+                    <div class="card m-lg-4">
+                        <div class="card-header">
+                            <h3>Data Retrieval via Text</h3>
+                            Input Text Model (TEXT)
+                        </div>
+                        <div class="form-control d-flex mb-2 py-3">
+                            <div class="col">
+                                Filters:
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="card-body">
-                                        <blockquote class="blockquote">
-                                            <label for="input_text">Enter text 1:</label>
-                                            <input class="form-control" placeholder="Input Yout Text Here" type="text" id="input_text" name="input_text1">                    
-                                        </blockquote>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card-body">
-                                        <blockquote class="blockquote">
-                                            <label for="input_text">Enter text 2:</label>
-                                            <input class="form-control" placeholder="Input Yout Text Here" type="text" id="input_text" name="input_text2">                    
-                                        </blockquote>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card-body">
-                                        <blockquote class="blockquote">
-                                            <label for="input_text">Enter text 3:</label>
-                                            <input class="form-control" placeholder="Input Yout Text Here" type="text" id="input_text" name="input_text3">                    
-                                        </blockquote>
-                                    </div>
-                                </div>
+                            <div class="col">
+                                <input class="form-check-input" type="checkbox" name="checkbox1" value="1" onchange="updateValue(this)" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Stop Word
+                                </label>
                             </div>
-                            <div class="row">
+                            <div class="col">
+                                <input class="form-check-input" type="checkbox" name="checkbox2" value="1" onchange="updateValue(this)" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Wnl
+                                </label>
+                            </div>
+                            <div class="col">
+                                <input class="form-check-input" type="checkbox" name="checkbox3" value="1" onchange="updateValue(this)" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Porter
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <div class="card-body">
                                     <blockquote class="blockquote">
-                                        <label for="input_text">Search word:</label>
-                                        <input class="form-control" placeholder="Input Word to Search in Document" type="text" id="search_word" name="search_word">                    
+                                        <label for="input_text">Enter text 1:</label>
+                                        <input class="form-control" placeholder="Input Yout Text Here" type="text"
+                                            id="input_text" name="input_text1">
                                     </blockquote>
                                 </div>
                             </div>
-                            <div class="d-grid gap-2">
-                                <input class="btn btn-warning" type="submit" value="Submit">
+                            <div class="col">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <label for="input_text">Enter text 2:</label>
+                                        <input class="form-control" placeholder="Input Yout Text Here" type="text"
+                                            id="input_text" name="input_text2">
+                                    </blockquote>
+                                </div>
                             </div>
-                        </div>            
-                    </form>
+                            <div class="col">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <label for="input_text">Enter text 3:</label>
+                                        <input class="form-control" placeholder="Input Yout Text Here" type="text"
+                                            id="input_text" name="input_text3">
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card-body">
+                                <blockquote class="blockquote">
+                                    <label for="input_text">Search word:</label>
+                                    <input class="form-control" placeholder="Input Word to Search in Document"
+                                        type="text" id="search_word" name="search_word">
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <input class="btn btn-warning" type="submit" value="Submit">
+                        </div>
+                    </div>
+                </form>
                 <!-- </div> -->
             </div>
-    
-            <div id="divTxt" class="container collapse" style="">
+
+            <div id="divTxt" class="container collapse">
                 <!-- <div id="txt" class="hidden"> -->
-                <!-- <div id="collapse-content-txt" class="container collapse" style=""> -->
-                    <!-- INPUT TXT FILE {HIDDEN} -->
-                    <form action="/data_retrieval_txt" method="post" enctype="multipart/form-data">
-                        <div class="card m-lg-4">
-                            <div class="card-header">
-                                <h3>Data Retrieval via TXT</h3>
-                                Input File (.txt) Extension
+                <!-- <div id="collapse-content-txt" class="container collapse"> -->
+                <form action="/data_retrieval_txt" method="post" enctype="multipart/form-data">
+                <!-- INPUT TXT FILE {HIDDEN} -->
+                    <div class="card m-lg-4">
+                        <div class="card-header">
+                            <h3>Data Retrieval via TXT</h3>
+                            Input File (.txt) Extension
+                        </div>
+                        <div class="form-control d-flex mb-2 py-3">
+                            <div class="col">
+                                Filters:
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="card-body">
-                                        <blockquote class="blockquote">
-                                            <label for="file">Upload your document 1 (.txt) file down here:</label>
-                                            <input class="form-control" type="file" name="myfile1" id="file">                   
-                                        </blockquote>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card-body">
-                                        <blockquote class="blockquote">
-                                            <label for="file">Upload your document 2 (.txt) down here:</label>
-                                            <input class="form-control" type="file" name="myfile2" id="file">                   
-                                        </blockquote>
-                                    </div>
-                                </div>
+                            <div class="col">
+                                <input class="form-check-input" type="checkbox" name="checkbox1" value="1" onchange="updateValue(this)" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Stop Word
+                                </label>
                             </div>
-                            <div class="row">
+                            <div class="col">
+                                <input class="form-check-input" type="checkbox" name="checkbox2" value="1" onchange="updateValue(this)" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Wnl
+                                </label>
+                            </div>
+                            <div class="col">
+                                <input class="form-check-input" type="checkbox" name="checkbox3" value="1" onchange="updateValue(this)" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Porter
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <div class="card-body">
                                     <blockquote class="blockquote">
-                                        <label for="input_text">Search word:</label>
-                                        <input class="form-control" placeholder="Input Word to Search in Document" type="text" id="search_word" name="search_word">                    
+                                        <label for="file">Upload your document 1 (.txt) file down here:</label>
+                                        <input class="form-control" type="file" name="myfile1" id="file">
                                     </blockquote>
                                 </div>
                             </div>
-                            <div class="d-grid gap-2">
-                                <input class="btn btn-warning" type="submit" value="Upload">
+                            <div class="col">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <label for="file">Upload your document 2 (.txt) down here:</label>
+                                        <input class="form-control" type="file" name="myfile2" id="file">
+                                    </blockquote>
+                                </div>
                             </div>
-                        </div>            
-                    </form>        
+                            <div class="col">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <label for="file">Upload your document 3 (.txt) down here:</label>
+                                        <input class="form-control" type="file" name="myfile3" id="file">
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card-body">
+                                <blockquote class="blockquote">
+                                    <label for="input_text">Search word:</label>
+                                    <input class="form-control" placeholder="Input Word to Search in Document"
+                                        type="text" id="search_word" name="search_word">
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <input class="btn btn-warning" type="submit" value="Upload">
+                        </div>
+                    </div>
+                </form>
                 <!-- </div> -->
             </div>
-        <!-- <input class="form-check-input" type="radio" name="myRadio" value="1" onclick="toggleCollapse()"> Option 1 -->
-        <!-- <input class="form-check-input" type="radio" name="myRadio" value="2" onclick="toggleCollapse()"> Option 2 -->        
+            <!-- <input class="form-check-input" type="radio" name="myRadio" value="1" onclick="toggleCollapse()"> Option 1 -->
+            <!-- <input class="form-check-input" type="radio" name="myRadio" value="2" onclick="toggleCollapse()"> Option 2 -->
         </div>
     </div>
 
     <!-- Add Bootstrap JS at the end of the body -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>

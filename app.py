@@ -19,11 +19,15 @@ def text():
 @app.route('/data_retrieval_text', methods=['GET', 'POST'])
 def data_result():
     if request.method == 'POST':
+        stop_word_value = request.form.get('checkbox1')
+        wnl_value = request.form.get('checkbox2')
+        porter_value = request.form.get('checkbox3')
+
         input_text1 = request.form['input_text1']
         input_text2 = request.form['input_text2']
         input_text3 = request.form['input_text3']
         search_word = request.form['search_word']
-        result = document_retrieval(input_text1, input_text2, input_text3, search_word)
+        result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word)
         return render_template('result_text.html', result=result, search_word=search_word)    
     
 
@@ -35,6 +39,11 @@ def txt():
 @app.route('/data_retrieval_txt', methods=['GET', 'POST'])
 def data_result_txt():
     if request.method == 'POST':
+        stop_word_value = request.form.get('checkbox1')
+        wnl_value = request.form.get('checkbox2')
+        porter_value = request.form.get('checkbox3')
+
+        # reading file proccess
         file1 = request.files['myfile1']
         file_contents1 = file1.read() # read the content
         input_text1 = file_contents1.decode('utf-8') # To convert the bytes to a string
@@ -43,9 +52,13 @@ def data_result_txt():
         file_contents2 = file2.read()
         input_text2 = file_contents2.decode('utf-8')
 
+        file3 = request.files['myfile3']
+        file_contents3 = file3.read()
+        input_text3 = file_contents3.decode('utf-8')
+
         search_word = request.form['search_word']
         
-        result = document_retrieval(input_text1, input_text2, search_word)
+        result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word)
         # print(result)
 
         # return file_contents
@@ -56,6 +69,20 @@ def data_result_txt():
 def index():
     image_url = '/img_01.jpg'
     return render_template('index.html', image_url=image_url)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    checkbox1_value = request.form.get('checkbox1')
+    checkbox2_value = request.form.get('checkbox2')
+    checkbox3_value = request.form.get('checkbox3')
+
+    # Lakukan sesuatu dengan nilai checkbox yang diterima
+    # Misalnya, cetak nilai ke konsol
+    print("Checkbox 1:", checkbox1_value)
+    print("Checkbox 2:", checkbox2_value)
+    print("Checkbox 3:", checkbox3_value)
+
+    return f"Data checkbox telah diterima. Checkbox 1: {checkbox1_value}, Checkbox 2: {checkbox2_value}, Checkbox 3: {checkbox3_value}"
     
 if __name__ == '__main__':
     app.run(debug=True)

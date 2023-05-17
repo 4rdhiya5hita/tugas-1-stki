@@ -1,0 +1,2 @@
+jalankan py app.py
+browse localhost:5000
