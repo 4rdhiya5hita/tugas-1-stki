@@ -127,10 +127,12 @@ def return_result(documents, query):
         if query == '1':
             matching_documents.append(idx)
             print("Document", idx, ":", documents[idx])
+    bin_val= print(binary_values )
+    res=print(results)
     tf=print(tf_df)
-    return matching_documents, tf
+    return matching_documents, tf, bin_val, res
 
-return_result(documents, 'blue AND color NOT sky')
+return_result(documents, 'blue AND color')
 
 # return {'doc': result, 'text': [documents[doc_id] for doc_id in result]}
 

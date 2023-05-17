@@ -105,7 +105,7 @@ def boolean_retrieval(documents):
                     result = bin(int(operand1, 2) & int(operand2, 2))[2:].zfill(len(operand1))
                 elif term == 'OR':
                     result = bin(int(operand1, 2) | int(operand2, 2))[2:].zfill(len(operand1))
-            stack.append(list(result))
+            stack.append(result)
         else:
             stack.append(term)
 
@@ -125,6 +125,7 @@ def main_co(query, documents):
         'doc': matching_documents,
         'text': [documents[id] for id in matching_documents if id in documents]
     }
+    
     #documents[doc_id] for doc_id in matching_documents if doc_id in documents
     return result
    
