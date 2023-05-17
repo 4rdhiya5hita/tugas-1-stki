@@ -5,13 +5,44 @@ from scipy.stats import rankdata
 
 # Example using nltk for data retrieval purpose
 import nltk
-nltk.download('stopwords')
+nltk.download('omw-1.4')
+# nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
 nltk.download('punkt')
 nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer, PorterStemmer
+
+
+   
+def boolean_retrieval (input_doc1, input_doc2, input_doc3, search_word):
+    # Tokenize the documents
+    documents = [input_doc1, input_doc2, input_doc3]
+
+    tokens = [word_tokenize(doc.lower()) for doc in documents]
+
+# Remove stopwords
+    stopwords_list = stopwords.words("english")
+    filtered_tokens = [[token for token in doc if token not in stopwords_list] for doc in tokens]
+
+# Apply stemming
+    stemmer = PorterStemmer()
+    stemmed_tokens = [[stemmer.stem(token) for token in doc] for doc in filtered_tokens]
+
+# Define the query
+    query = search_word
+
+# Tokenize and stem the query
+    query_tokens = [stemmer.stem(token.lower()) for token in word_tokenize(query) if token.lower() not in stopwords_list]
+    result = []
+    docs = []  # Dictionary untuk menyimpan nomor dokumen
+    for i, doc in enumerate(stemmed_tokens):
+        if all(term in doc for term in query_tokens):
+            result.append(documents[i])
+            docs.append(i+1)   # Tambahkan nomor dokumen ke dalam dictionary
+    return {'doc': docs, 'text': result}
+
 
 def document_retrieval (input_doc1, input_doc2, input_doc3, search_word):
     # arr_doc1 = []
@@ -21,6 +52,7 @@ def document_retrieval (input_doc1, input_doc2, input_doc3, search_word):
     arr_doc3 = data_retrieval(input_doc3)
     token_array = list(set(arr_doc1 + arr_doc2 + arr_doc3))
     # token_array = arr.array('u', arr_doc)
+
 
     q = []
     d1 = []
@@ -216,3 +248,4 @@ def data_retrieval(input_text):
     # , 'porter_sentence': porter_sentence, 'wnl_sentence': wnl_sentence
     # return {'final_sentence': final_sentence, "input_text": input_text}
     return without_punctuation
+

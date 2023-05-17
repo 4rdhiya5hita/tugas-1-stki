@@ -4,8 +4,37 @@ from flask import Flask, render_template, request, send_file
 # from data_retrieval_text import data_retrieval_text
 # from data_retrieval_txt import data_retrieval_txt
 from data_retrieval import document_retrieval
+# from boolean import boolean_retrieval
+
+from bool_try2 import main_co
 
 app = Flask(__name__)
+
+@app.route('/boolean', methods=['GET'])
+def boolean():
+    # if request.method == 'POST':
+    #     name = request.form['name']
+    #     data_retrieval_text(name)
+        # return f'Hello, {name}!'
+    return render_template('index_text.html')
+
+@app.route('/data_retrieval_boolean', methods=['GET', 'POST'])
+def boolean_result():
+    if request.method == 'POST':
+        input_text1 = request.form['input_text1']
+        input_text2 = request.form['input_text2']
+        input_text3 = request.form['input_text3']
+        documents={
+            '1': input_text1,
+            '2': input_text2,
+            '3': input_text3
+        }
+        query = request.form['search_word']
+        # result = boolean_retrieval(query, documents)
+        
+        result = main_co(query, documents)
+
+        return render_template('result_boolean.html', result=result,  search_word=query)  
 
 @app.route('/text', methods=['GET'])
 def text():

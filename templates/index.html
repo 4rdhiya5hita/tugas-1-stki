@@ -59,6 +59,11 @@
 				$("#divTxt").collapse('toggle');
 			});
 		});
+        $(document).ready(function(){
+			$("#toggleButtonBoolean").click(function(){
+				$("#divBoolean").collapse('toggle');
+			});
+		});
 	</script>
 
 </head>
@@ -84,7 +89,11 @@
                     <button id="toggleButtonTxt" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" 
                         aria-expanded="false" aria-controls="collapseExample" onclick="toggleCollapse()">
                         TXT
-                    </button>            
+                    </button>     
+                    <button id="toggleButtonBoolean" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" 
+                    aria-expanded="false" aria-controls="collapseExample" onclick="toggleCollapse()">
+                    Boolean
+                    </button>       
                     <!-- <hr> -->
                 </div>  
             </div>
@@ -141,7 +150,58 @@
                     </form>
                 <!-- </div> -->
             </div>
-    
+            <div id="divBoolean" class="container collapse" style="">
+                <!-- Your collapsible content goes here -->
+                <!-- <div id="text"> -->
+                <!-- <div id="collapse-content-text" class="container collapse" style=""> -->
+                    <!-- INPUT TEXT {BLOCK / TERLIHAT} -->
+                    <form action="/data_retrieval_boolean" method="POST">
+                        <div class="card m-lg-4">
+                            <div class="card-header">
+                                <h3>Data Retrieval Boolean</h3>
+                                Input Text Model (TEXT)
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-body">
+                                        <blockquote class="blockquote">
+                                            <label for="input_text">Enter text 1:</label>
+                                            <input class="form-control" placeholder="Input Yout Text Here" type="text" id="input_text" name="input_text1">                    
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card-body">
+                                        <blockquote class="blockquote">
+                                            <label for="input_text">Enter text 2:</label>
+                                            <input class="form-control" placeholder="Input Yout Text Here" type="text" id="input_text" name="input_text2">                    
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card-body">
+                                        <blockquote class="blockquote">
+                                            <label for="input_text">Enter text 3:</label>
+                                            <input class="form-control" placeholder="Input Yout Text Here" type="text" id="input_text" name="input_text3">                    
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <label for="input_text">Search word:</label>
+                                        <input class="form-control" placeholder="Input Word to Search in Document" type="text" id="search_word" name="search_word">                    
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <input class="btn btn-warning" type="submit" value="Submit">
+                            </div>
+                        </div>            
+                    </form>
+                <!-- </div> -->
+            </div>    
             <div id="divTxt" class="container collapse" style="">
                 <!-- <div id="txt" class="hidden"> -->
                 <!-- <div id="collapse-content-txt" class="container collapse" style=""> -->
