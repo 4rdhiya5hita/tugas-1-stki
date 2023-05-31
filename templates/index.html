@@ -107,7 +107,6 @@
                         onclick="toggleCollapse()">
                         TXT
                     </button>            
-                    <!-- <hr> -->
                 </div>  
             </div>
 
@@ -123,26 +122,45 @@
                             Input Text Model (TEXT)
                         </div>
                         <div class="form-control d-flex mb-2 py-3">
-                            <div class="col">
-                                Filters:
+                            <div class="form-control d-flex mb-2 py-3">
+                                <div class="col">
+                                    Algorithm
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox4" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        SVM
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox5" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Boolean
+                                    </label>
+                                </div>
                             </div>
-                            <div class="col">
-                                <input class="form-check-input" type="checkbox" name="checkbox1" value="1" onchange="updateValue(this)" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Stop Word
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input class="form-check-input" type="checkbox" name="checkbox2" value="1" onchange="updateValue(this)" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Wnl
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input class="form-check-input" type="checkbox" name="checkbox3" value="1" onchange="updateValue(this)" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Porter
-                                </label>
+                            <div class="form-control d-flex mb-2 py-3">
+                                <div class="col">
+                                    Filters:
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox1" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Stop Word
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox2" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Wnl
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox3" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Porter
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -191,37 +209,57 @@
                 <!-- </div> -->
             </div>
     
-            <div id="divTxt" class="container collapse" style="">
+
+            <div id="divTxt" class="container collapse">
                 <!-- <div id="txt" class="hidden"> -->
                 <!-- <div id="collapse-content-txt" class="container collapse"> -->
                 <form action="/data_retrieval_txt" method="post" enctype="multipart/form-data">
-                <!-- INPUT TXT FILE {HIDDEN} -->
+                <!-- INPUT TEXT {BLOCK / TERLIHAT} -->
                     <div class="card m-lg-4">
                         <div class="card-header">
                             <h3>Data Retrieval via TXT</h3>
                             Input File (.txt) Extension
                         </div>
                         <div class="form-control d-flex mb-2 py-3">
-                            <div class="col">
-                                Filters:
+                            <div class="form-control d-flex mb-2 py-3">
+                                <div class="col">
+                                    Algorithm
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox4" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        SVM
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox5" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Boolean
+                                    </label>
+                                </div>
                             </div>
-                            <div class="col">
-                                <input class="form-check-input" type="checkbox" name="checkbox1" value="1" onchange="updateValue(this)" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Stop Word
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input class="form-check-input" type="checkbox" name="checkbox2" value="1" onchange="updateValue(this)" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Wnl
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input class="form-check-input" type="checkbox" name="checkbox3" value="1" onchange="updateValue(this)" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Porter
-                                </label>
+                            <div class="form-control d-flex mb-2 py-3">
+                                <div class="col">
+                                    Filters:
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox1" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Stop Word
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox2" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Wnl
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" name="checkbox3" value="1" onchange="updateValue(this)" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Porter
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -260,7 +298,7 @@
                             </div>
                         </div>
                         <div class="d-grid gap-2">
-                            <input class="btn btn-warning" type="submit" value="Upload">
+                            <input class="btn btn-warning" type="submit" value="Submit">
                         </div>
                     </div>
                 </form>

@@ -1,40 +1,40 @@
-import subprocess
+from nltk.tokenize import word_tokenize
 
 from flask import Flask, render_template, request, send_file
 # from data_retrieval_text import data_retrieval_text
 # from data_retrieval_txt import data_retrieval_txt
 from data_retrieval import document_retrieval
-# from boolean import boolean_retrieval
 
+# from boolean import boolean_retrieval
 from bool_try2 import main_co
 
 app = Flask(__name__)
 
-@app.route('/boolean', methods=['GET'])
-def boolean():
-    # if request.method == 'POST':
-    #     name = request.form['name']
-    #     data_retrieval_text(name)
-        # return f'Hello, {name}!'
-    return render_template('index_text.html')
+# @app.route('/boolean', methods=['GET'])
+# def boolean():
+#     # if request.method == 'POST':
+#     #     name = request.form['name']
+#     #     data_retrieval_text(name)
+#         # return f'Hello, {name}!'
+#     return render_template('index_text.html')
 
-@app.route('/data_retrieval_boolean', methods=['GET', 'POST'])
-def boolean_result():
-    if request.method == 'POST':
-        input_text1 = request.form['input_text1']
-        input_text2 = request.form['input_text2']
-        input_text3 = request.form['input_text3']
-        documents={
-            '1': input_text1,
-            '2': input_text2,
-            '3': input_text3
-        }
-        query = request.form['search_word']
-        # result = boolean_retrieval(query, documents)
+# @app.route('/data_retrieval_boolean', methods=['GET', 'POST'])
+# def boolean_result():
+#     if request.method == 'POST':
+#         input_text1 = request.form['input_text1']
+#         input_text2 = request.form['input_text2']
+#         input_text3 = request.form['input_text3']
+#         documents={
+#             '1': input_text1,
+#             '2': input_text2,
+#             '3': input_text3
+#         }
+#         query = request.form['search_word']
+#         # result = boolean_retrieval(query, documents)
         
-        result = main_co(query, documents)
+#         result = main_co(query, documents)
 
-        return render_template('result_boolean.html', result=result,  search_word=query)  
+#         return render_template('result_boolean.html', result=result,  search_word=query)  
 
 @app.route('/text', methods=['GET'])
 def text():
@@ -51,12 +51,38 @@ def data_result():
         stop_word_value = request.form.get('checkbox1')
         wnl_value = request.form.get('checkbox2')
         porter_value = request.form.get('checkbox3')
+        vsm_value = request.form.get('checkbox4')
+        boolean_value_checkbox = request.form.get('checkbox5')
 
         input_text1 = request.form['input_text1']
         input_text2 = request.form['input_text2']
         input_text3 = request.form['input_text3']
         search_word = request.form['search_word']
-        result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word)
+                
+        # exclude_words = ["OR", "AND", "NOT"]
+        # for word in search_word:
+        #     if 'and' in word:
+        #         boolean_value = 1
+        #     elif 'not' in word:
+        #         boolean_value = 1
+        #     elif 'or' in word:
+        #         boolean_value = 1
+        #     else:
+        #         boolean_value = None
+
+        documents={
+            '1': input_text1,
+            '2': input_text2,
+            '3': input_text3
+        }
+ 
+        if(vsm_value == 'None'):
+            result = main_co(search_word, documents)
+        else:           
+            result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word, documents, vsm_value, boolean_value_checkbox)
+
+            
+
         return render_template('result_text.html', result=result, search_word=search_word)    
     
 
@@ -71,6 +97,8 @@ def data_result_txt():
         stop_word_value = request.form.get('checkbox1')
         wnl_value = request.form.get('checkbox2')
         porter_value = request.form.get('checkbox3')
+        vsm_value = request.form.get('checkbox4')
+        boolean_value = request.form.get('checkbox5')
 
         # reading file proccess
         file1 = request.files['myfile1']
@@ -86,9 +114,24 @@ def data_result_txt():
         input_text3 = file_contents3.decode('utf-8')
 
         search_word = request.form['search_word']
-        
-        result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word)
-        # print(result)
+
+        clean_search_word = [word for word in word_tokenize(search_word .lower())]
+        for word in clean_search_word:
+            if word in ['or', 'and', 'not']:
+                boolean_value = None
+            else:
+                boolean_value = 1
+
+        documents={
+            '1': input_text1,
+            '2': input_text2,
+            '3': input_text3
+        }
+ 
+        if(vsm_value is not None):
+            result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word, documents, vsm_value, boolean_value)      
+        else:
+            result = main_co(search_word, documents)
 
         # return file_contents
         return render_template('result_txt.html', result=result, search_word=search_word)

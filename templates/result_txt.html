@@ -1,324 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Result of Data Retrieval</title>
-    
+
     <style type="text/css">
-        .tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:18px;
-          overflow:hidden;padding:10px 5px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:18px;
-          font-weight: bold;overflow:hidden;padding:10px 5px;word-break:normal;text-align: center;}
-        .tg .tg-0pky{border-color:black;text-align: center;vertical-align:top; font-size:18px;}
-        .tg .tg-8m24{border-color:#ffff;}
-        .tg .tg-5hyj{border-left:#ffff; border-top:#ffff; border-bottom:#ffff;}
-        
-        .table-name{font-size: 20px; font-weight: bold;}
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin: 0px auto;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+            text-align: center;
+        }
+
+        .tg .tg-0pky {
+            border-color: black;
+            text-align: center;
+            vertical-align: top;
+            font-size: 18px;
+        }
+
+        .tg .tg-8m24 {
+            border-color: #ffff;
+        }
+
+        .tg .tg-5hyj {
+            border-left: #ffff;
+            border-top: #ffff;
+            border-bottom: #ffff;
+        }
+
+        .table-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
         .outlined-text {
-            color: #fff; /* Warna teks */
-            -webkit-text-stroke: 0.5px #777777; /* Lebar dan warna border */
-            font-size: 30pt; 
+            color: #fff;
+            /* Warna teks */
+            -webkit-text-stroke: 0.5px #777777;
+            /* Lebar dan warna border */
+            font-size: 30pt;
             font-weight: bold;
         }
     </style>
 </head>
-<body>
-<div style="background-image: url('https://images.unsplash.com/photo-1650844228078-6c3cb119abcd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80'); background-size: cover; height: fit-content; padding-top:10px;">
-    <div class="container mt-lg-3">
-        <div class="row outlined-text align-items-center justify-content-center">
-            Result of Data Retrieval with File TXT as Document
-        </div>
-        <div class="card m-lg-4">
-            <div class="card-header table-name">
-                <!-- This is the original text: -->
-                Kata yang Dicari (Query)
-            </div>
-            <div class="card-body">
-                <blockquote class="blockquote">
-                    <!-- <p> {{ result.input_text }} </p> -->
-                    <p> {{ search_word }} </p>
-                </blockquote>  
-            </div>
-        </div>
 
-        <div class="card m-lg-4">
-            <div class="card-header table-name">
-                Preprocessing
+<body>
+    <div
+        style="background-image: url('https://images.unsplash.com/photo-1650844228078-6c3cb119abcd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80'); background-size: cover; height: fit-content; padding-top:10px; padding-bottom:20px;">
+        <div class="container mt-lg-3">
+            <div class="row outlined-text align-items-center justify-content-center">
+                Result of Data Retrieval with File TXT as Document
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="card-body">
-                        <blockquote class="blockquote">
-                            <i class="fa fa-quote-left">
-                                <!-- <p> {{ result.final_sentence }} </p> -->
-                                <!-- <p> {{ result.search_word }} </p> -->
-                                <p> {{ result.arr_doc1 }} </p>
-                                <p> Count in Document 1 : {{ result.count1 }} </p>
-                            </i>
-                        </blockquote>  
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card-body">
-                        <blockquote class="blockquote">
-                            <i class="fa fa-quote-left">
-                                <!-- <p> {{ result.final_sentence }} </p> -->
-                                <p> {{ result.arr_doc2 }} </p>
-                                <p> Count in Document 2 : {{ result.count2 }} </p>
-                            </i>
-                        </blockquote>  
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card-body">
-                        <blockquote class="blockquote">
-                            <i class="fa fa-quote-left">
-                                <!-- <p> {{ result.final_sentence }} </p> -->
-                                <p> {{ result.arr_doc3 }} </p>
-                                <p> Count in Document 3 : {{ result.count3 }} </p>
-                            </i>
-                        </blockquote>  
-                    </div>
-                </div>
-            </div>
-        </div>     
-        
-        <div id="rank" {% if result.cos_rank =='x' %} hidden {% endif %}>
             <div class="card m-lg-4">
                 <div class="card-header table-name">
-                    Perhitungan Term Weighting TF-IDF
+                    <!-- This is the original text: -->
+                    Kata yang Dicari (Query)
                 </div>
-                <div class="row m-lg-4">
-                    <table class="tg">
-                        <thead>
-                        <tr>
-                            <th class="tg-0pky" rowspan="2">Token</th>
-                            <th class="tg-0pky" colspan="4">tf</th>
-                            <th class="tg-0pky" rowspan="2">df</th>
-                            <th class="tg-0pky" rowspan="2">D/df</th>
-                            <th class="tg-0pky" rowspan="2">IDF log(D/df)</th>
-                            <th class="tg-0pky" rowspan="2">IDF+1</th>
-                        </tr>
-                        <tr>
-                            <th class="tg-0pky">Q</th>
-                            <th class="tg-0pky">D1</th>
-                            <th class="tg-0pky">D2</th>
-                            <th class="tg-0pky">D3</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in range(result.token_array|length) %}
-                                <tr>
-                                    <td class="tg-0pky">{{ result.token_array[i] }}</td>
-                                    <td class="tg-0pky">{{ result.q[i] }}</td>
-                                    <td class="tg-0pky">{{ result.d1[i] }}</td>
-                                    <td class="tg-0pky">{{ result.d2[i] }}</td>
-                                    <td class="tg-0pky">{{ result.d3[i] }}</td>
-                                    <td class="tg-0pky">{{ result.df[i] }}</td>
-                                    <td class="tg-0pky">{{ result.D[i] }}</td>
-                                    <td class="tg-0pky">{{ result.log[i] }}</td>
-                                    <td class="tg-0pky">{{ result.log_1[i] }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <blockquote class="blockquote">
+                        <!-- <p> {{ result.input_text }} </p> -->
+                        <p> {{ search_word }} </p>
+                    </blockquote>
                 </div>
             </div>
-            
-            <div class="card m-lg-4">
+
+            <div class="card m-lg-4" {% if result.vsm_value is defined %} {% else %} hidden {% endif %}>
                 <div class="card-header table-name">
-                    Perhitungan Jarak Antar Dokumen
+                    Preprocessing
                 </div>
-                <div class="row m-lg-4">
-                    <table class="tg">
-                        <thead>
-                        <tr>
-                            <th class="tg-0pky" rowspan="2">Token</th>
-                            <th class="tg-0pky" colspan="4">W (Weighting)</th>
-                            <th class="tg-0pky" colspan="4">Vector Calculation of the Query</th>
-                        </tr>
-                        <tr>
-                            <th class="tg-0pky">Q</th>
-                            <th class="tg-0pky">D1</th>
-                            <th class="tg-0pky">D2</th>
-                            <th class="tg-0pky">D3</th>
-                            <th class="tg-0pky">Q<sup>2</sup></th>
-                            <th class="tg-0pky">D1<sup>2</sup></th>
-                            <th class="tg-0pky">D2<sup>2</sup></th>
-                            <th class="tg-0pky">D3<sup>2</sup></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in range(result.token_array|length) %}
-                                <tr>
-                                    <td class="tg-0pky">{{ result.token_array[i] }}</td>
-                                    <td class="tg-0pky">{{ result.w_q[i] }}</td>
-                                    <td class="tg-0pky">{{ result.w_d1[i] }}</td>
-                                    <td class="tg-0pky">{{ result.w_d2[i] }}</td>
-                                    <td class="tg-0pky">{{ result.w_d3[i] }}</td>
-                                    <td class="tg-0pky">{{ result.v_q[i] }}</td>
-                                    <td class="tg-0pky">{{ result.v_d1[i] }}</td>
-                                    <td class="tg-0pky">{{ result.v_d2[i] }}</td>
-                                    <td class="tg-0pky">{{ result.v_d3[i] }}</td>
-                                </tr>
-                            {% endfor %}
-                                <!-- <tr>
+                <div class="row">
+                    <div class="col">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <i class="fa fa-quote-left">
+                                    <!-- <p> {{ result.final_sentence }} </p> -->
+                                    <!-- <p> {{ result.search_word }} </p> -->
+                                    <p> {{ result.arr_doc1 }} </p>
+                                    <p> Count in Document 1 : {{ result.count1 }} </p>
+                                </i>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <i class="fa fa-quote-left">
+                                    <!-- <p> {{ result.final_sentence }} </p> -->
+                                    <p> {{ result.arr_doc2 }} </p>
+                                    <p> Count in Document 2 : {{ result.count2 }} </p>
+                                </i>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <i class="fa fa-quote-left">
+                                    <!-- <p> {{ result.final_sentence }} </p> -->
+                                    <p> {{ result.arr_doc3 }} </p>
+                                    <p> Count in Document 3 : {{ result.count3 }} </p>
+                                </i>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card m-lg-4" {% if result.boolean_value is not none %} {% else %} hidden {% endif %}>
+                <div class="card-header">
+                    Boolean Result
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <i class="fa fa-quote-left">
+                                    <!-- <p> {{ result.final_sentence }} </p> -->
+                                    <!-- <p> {{ result.search_word }} </p> -->
+                                    <!-- <p> Document {{ result}}</p> -->
+                                    {% if result.vsm_value is not none %}
+                                    <p>Nomor Dokumen: {{ result.boolean.doc }} </p>
+                                    <p>Isi Dokumen: <br> {{ result.boolean.text }} </p>
+                                    {% else %}
+                                    <p>Nomor Dokumen: {{ result.doc }} </p>
+                                    <p>Isi Dokumen: <br> {{ result.text }} </p>
+                                    {% endif %}
+                                    <!-- <p> Count in Document 1 : {{ result.count1 }} </p> -->
+                                </i>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div {% if result.vsm_value is defined %} {% else %} hidden {% endif %}>
+                <div id="rank" {% if result.cos_rank=='x' %} hidden {% endif %}>
+                    <div class="card m-lg-4">
+                        <div class="card-header table-name">
+                            Perhitungan Term Weighting TF-IDF
+                        </div>
+                        <div class="row m-lg-4">
+                            <table class="tg">
+                                <thead>
+                                    <tr>
+                                        <th class="tg-0pky" rowspan="2">Token</th>
+                                        <th class="tg-0pky" colspan="4">tf</th>
+                                        <th class="tg-0pky" rowspan="2">df</th>
+                                        <th class="tg-0pky" rowspan="2">D/df</th>
+                                        <th class="tg-0pky" rowspan="2">IDF log(D/df)</th>
+                                        <th class="tg-0pky" rowspan="2">IDF+1</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tg-0pky">Q</th>
+                                        <th class="tg-0pky">D1</th>
+                                        <th class="tg-0pky">D2</th>
+                                        <th class="tg-0pky">D3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in range(result.token_array|length) %}
+                                    <tr>
+                                        <td class="tg-0pky">{{ result.token_array[i] }}</td>
+                                        <td class="tg-0pky">{{ result.q[i] }}</td>
+                                        <td class="tg-0pky">{{ result.d1[i] }}</td>
+                                        <td class="tg-0pky">{{ result.d2[i] }}</td>
+                                        <td class="tg-0pky">{{ result.d3[i] }}</td>
+                                        <td class="tg-0pky">{{ result.df[i] }}</td>
+                                        <td class="tg-0pky">{{ result.D[i] }}</td>
+                                        <td class="tg-0pky">{{ result.log[i] }}</td>
+                                        <td class="tg-0pky">{{ result.log_1[i] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card m-lg-4">
+                        <div class="card-header table-name">
+                            Perhitungan Jarak Antar Dokumen
+                        </div>
+                        <div class="row m-lg-4">
+                            <table class="tg">
+                                <thead>
+                                    <tr>
+                                        <th class="tg-0pky" rowspan="2">Token</th>
+                                        <th class="tg-0pky" colspan="4">W (Weighting)</th>
+                                        <th class="tg-0pky" colspan="4">Vector Calculation of the Query</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tg-0pky">Q</th>
+                                        <th class="tg-0pky">D1</th>
+                                        <th class="tg-0pky">D2</th>
+                                        <th class="tg-0pky">D3</th>
+                                        <th class="tg-0pky">Q<sup>2</sup></th>
+                                        <th class="tg-0pky">D1<sup>2</sup></th>
+                                        <th class="tg-0pky">D2<sup>2</sup></th>
+                                        <th class="tg-0pky">D3<sup>2</sup></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in range(result.token_array|length) %}
+                                    <tr>
+                                        <td class="tg-0pky">{{ result.token_array[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_q[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_d1[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_d2[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_d3[i] }}</td>
+                                        <td class="tg-0pky">{{ result.v_q[i] }}</td>
+                                        <td class="tg-0pky">{{ result.v_d1[i] }}</td>
+                                        <td class="tg-0pky">{{ result.v_d2[i] }}</td>
+                                        <td class="tg-0pky">{{ result.v_d3[i] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- <tr>
                                     <td class="tg-5hyj" colspan="5"></td>
                                     <td class="tg-0pky" style="font-weight: bold;" colspan="4">Jarak Antar Dokumen</td>
                                 </tr> -->
-                                <tr>
-                                    <td class="tg-5hyj" colspan="5"></td>
-                                    <td class="tg-0pky" style="font-weight: bold;" colspan="1">Sqrt(Q)</td>
-                                    <td class="tg-0pky" style="font-weight: bold;" colspan="3">Sqrt(Di)</td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-8m24"></td>
-                                    <td class="tg-8m24"></td>
-                                    <td class="tg-8m24"></td>
-                                    <td class="tg-8m24"></td>
-                                    <td class="tg-5hyj"></td>
-                                    <td class="tg-0pky">{{ result.sqrt_q }}</td>
-                                    <td class="tg-0pky">{{ result.sqrt_d1 }}</td>
-                                    <td class="tg-0pky">{{ result.sqrt_d2 }}</td>
-                                    <td class="tg-0pky">{{ result.sqrt_d3 }}</td>
-                                </tr>
-                        </tbody>
-                    </table>
+                                    <tr>
+                                        <td class="tg-5hyj" colspan="5"></td>
+                                        <td class="tg-0pky" style="font-weight: bold;" colspan="1">Sqrt(Q)</td>
+                                        <td class="tg-0pky" style="font-weight: bold;" colspan="3">Sqrt(Di)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-8m24"></td>
+                                        <td class="tg-8m24"></td>
+                                        <td class="tg-8m24"></td>
+                                        <td class="tg-8m24"></td>
+                                        <td class="tg-5hyj"></td>
+                                        <td class="tg-0pky">{{ result.sqrt_q }}</td>
+                                        <td class="tg-0pky">{{ result.sqrt_d1 }}</td>
+                                        <td class="tg-0pky">{{ result.sqrt_d2 }}</td>
+                                        <td class="tg-0pky">{{ result.sqrt_d3 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card m-lg-4">
+                        <div class="card-header table-name">
+                            Perhitungan Vector Space Model (VSM)
+                        </div>
+                        <div class="row m-lg-4">
+                            <table class="tg">
+                                <thead>
+                                    <tr>
+                                        <th class="tg-0pky" rowspan="2">Token</th>
+                                        <th class="tg-0pky" colspan="4">Vector Space Model</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tg-0pky">Q<sup>2</sup> * D1<sup>2</sup></th>
+                                        <th class="tg-0pky">Q<sup>2</sup> * D2<sup>2</sup></th>
+                                        <th class="tg-0pky">Q<sup>2</sup> * D3<sup>2</sup></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in range(result.token_array|length) %}
+                                    <tr>
+                                        <td class="tg-0pky">{{ result.token_array[i] }}</td>
+                                        <td class="tg-0pky">{{ result.vsm_d1[i] }}</td>
+                                        <td class="tg-0pky">{{ result.vsm_d2[i] }}</td>
+                                        <td class="tg-0pky">{{ result.vsm_d3[i] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td class="tg-5hyj" colspan="1"></td>
+                                        <td class="tg-0pky" style="font-weight: bold;" colspan="3">Perhitungan Dot
+                                            Produk</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-5hyj" colspan="1"></td>
+                                        <td class="tg-0pky" style="font-weight: bold;" colspan="3">Sum(Q*Di)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-5hyj"></td>
+                                        <td class="tg-0pky">{{ result.sum_vsm_d1 }}</td>
+                                        <td class="tg-0pky">{{ result.sum_vsm_d2 }}</td>
+                                        <td class="tg-0pky">{{ result.sum_vsm_d3 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-5hyj" colspan="1"></td>
+                                        <td class="tg-0pky" style="font-weight: bold;" colspan="3">Cosine</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-5hyj"></td>
+                                        <td class="tg-0pky">{{ result.cos_d1 }}</td>
+                                        <td class="tg-0pky">{{ result.cos_d2 }}</td>
+                                        <td class="tg-0pky">{{ result.cos_d3 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card m-lg-4">
+                        <div class="card-header table-name">
+                            Tabel Perankingan Berdasarkan Cosine
+                        </div>
+                        <div class="row m-lg-4">
+                            <table class="tg">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>D1</th>
+                                        <th>D2</th>
+                                        <th>D3</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr>
+                                        <td>Cosine</td>
+                                        {% for i in range(result.cos_document|length) %}
+                                        <td>{{ result.cos_document[i] }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <td>Rank</td>
+                                        {% for i in range(result.cos_document|length) %}
+                                        <td>{{ result.cos_rank[i] }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="card m-lg-4">
-                <div class="card-header table-name">
-                    Perhitungan Vector Space Model (VSM)
-                </div>
-                <div class="row m-lg-4">
-                    <table class="tg">
-                        <thead>
-                        <tr>
-                            <th class="tg-0pky" rowspan="2">Token</th>
-                            <th class="tg-0pky" colspan="4">Vector Space Model</th>
-                        </tr>
-                        <tr>
-                            <th class="tg-0pky">Q<sup>2</sup> * D1<sup>2</sup></th>
-                            <th class="tg-0pky">Q<sup>2</sup> * D2<sup>2</sup></th>
-                            <th class="tg-0pky">Q<sup>2</sup> * D3<sup>2</sup></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in range(result.token_array|length) %}
-                                <tr>
-                                    <td class="tg-0pky">{{ result.token_array[i] }}</td>
-                                    <td class="tg-0pky">{{ result.vsm_d1[i] }}</td>
-                                    <td class="tg-0pky">{{ result.vsm_d2[i] }}</td>
-                                    <td class="tg-0pky">{{ result.vsm_d3[i] }}</td>
-                                </tr>
-                            {% endfor %}
-                                <tr>
-                                    <td class="tg-5hyj" colspan="1"></td>
-                                    <td class="tg-0pky" style="font-weight: bold;" colspan="3">Perhitungan Dot Produk</td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-5hyj" colspan="1"></td>
-                                    <td class="tg-0pky" style="font-weight: bold;" colspan="3">Sum(Q*Di)</td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-5hyj"></td>
-                                    <td class="tg-0pky">{{ result.sum_vsm_d1 }}</td>
-                                    <td class="tg-0pky">{{ result.sum_vsm_d2 }}</td>
-                                    <td class="tg-0pky">{{ result.sum_vsm_d3 }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-5hyj" colspan="1"></td>
-                                    <td class="tg-0pky" style="font-weight: bold;" colspan="3">Cosine</td>
-                                </tr>
-                                <tr>
-                                    <td class="tg-5hyj"></td>
-                                    <td class="tg-0pky">{{ result.cos_d1 }}</td>
-                                    <td class="tg-0pky">{{ result.cos_d2 }}</td>
-                                    <td class="tg-0pky">{{ result.cos_d3 }}</td>
-                                </tr>
-                        </tbody>
-                    </table>
+            <div {% if result.vsm_value is defined %} {% else %} hidden {% endif %}>
+                <div id="rank" {% if result.cos_rank !='x' %} hidden {% endif %}>
+                    <div class="card m-lg-4">
+                        <div class="card-header table-name">
+                            Tabel Perankingan Berdasarkan Cosine
+                        </div>
+                        <div class="row m-lg-4">
+                            <table class="tg">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>D1</th>
+                                        <th>D2</th>
+                                        <th>D3</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr>
+                                        <td>Cosine</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rank</td>
+                                        <td>X</td>
+                                        <td>X</td>
+                                        <td>X</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="card m-lg-4">
-                <div class="card-header table-name">
-                    Tabel Perankingan Berdasarkan Cosine
+                <div class="d-grid">
+                    <a href="/" class="btn btn-warning">Go Back</a>
                 </div>
-                <div class="row m-lg-4">
-                    <table class="tg">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>D1</th>
-                            <th>D2</th>
-                            <th>D3</th>
-                        </tr>
-                        </thead>
-                        <tbody style="text-align: center;">    
-                            <tr>
-                                <td>Cosine</td>
-                                {% for i in range(result.cos_document|length) %}
-                                    <td>{{ result.cos_document[i] }}</td>
-                                {% endfor %}
-                            </tr>
-                            <tr>
-                                <td>Rank</td>
-                                {% for i in range(result.cos_document|length) %}
-                                    <td>{{ result.cos_rank[i] }}</td>
-                                {% endfor %}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
-        <div id="none_rank" {% if result.cos_rank !='x' %} hidden {% endif %}>
-            <div class="card m-lg-4">
-                <div class="card-header table-name">
-                    Tabel Perankingan Berdasarkan Cosine
-                </div>
-                <div class="row m-lg-4">
-                    <table class="tg">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>D1</th>
-                            <th>D2</th>
-                            <th>D3</th>
-                        </tr>
-                        </thead>
-                        <tbody style="text-align: center;">    
-                            <tr>
-                                <td>Cosine</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>Rank</td>
-                                <td>X</td>
-                                <td>X</td>
-                                <td>X</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
-        <div class="d-grid gap-2">
-            <a href="/" class="btn btn-warning">Go Back</a>
-        </div>
-        
-        
-        <!-- <br>
+                <!-- <br>
         <p>This is your data retrieval result with just (porter): 
             <h2> {{ result.porter_sentence }} </h2>    
         </p>
@@ -326,7 +406,8 @@
         <p>This is your data retrieval result with just (wnl): 
             <h2> {{ result.wnl_sentence }} </h2>    
         </p> -->
-    </div>
-</div>
+            </div>
+        </div>
 </body>
+
 </html>

@@ -1,56 +1,50 @@
 import string
 import math
-import numpy as np
 from scipy.stats import rankdata
 
-# Example using nltk for data retrieval purpose
 import nltk
 nltk.download('omw-1.4')
-# nltk.download('stopwords')
-from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from preprocessing import wnl, porter, wnl_porter
 
-nltk.download('punkt')
-nltk.download('wordnet')
-from nltk.stem import WordNetLemmatizer, PorterStemmer
-
-
-   
-def boolean_retrieval (input_doc1, input_doc2, input_doc3, search_word):
-    # Tokenize the documents
-    documents = [input_doc1, input_doc2, input_doc3]
-
-    tokens = [word_tokenize(doc.lower()) for doc in documents]
-
-# Remove stopwords
-    stopwords_list = stopwords.words("english")
-    filtered_tokens = [[token for token in doc if token not in stopwords_list] for doc in tokens]
-
-# Apply stemming
-    stemmer = PorterStemmer()
-    stemmed_tokens = [[stemmer.stem(token) for token in doc] for doc in filtered_tokens]
-
-# Define the query
-    query = search_word
-
-# Tokenize and stem the query
-    query_tokens = [stemmer.stem(token.lower()) for token in word_tokenize(query) if token.lower() not in stopwords_list]
-    result = []
-    docs = []  # Dictionary untuk menyimpan nomor dokumen
-    for i, doc in enumerate(stemmed_tokens):
-        if all(term in doc for term in query_tokens):
-            result.append(documents[i])
-            docs.append(i+1)   # Tambahkan nomor dokumen ke dalam dictionary
-    return {'doc': docs, 'text': result}
+from bool_try2 import main_co
 
 
-def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, input_doc2, input_doc3, search_word):
+# def boolean_retrieval (input_doc1, input_doc2, input_doc3, search_word):
+#     # Tokenize the documents
+#     documents = [input_doc1, input_doc2, input_doc3]
+
+#     tokens = [word_tokenize(doc.lower()) for doc in documents]
+
+#     # Remove stopwords
+#     stopwords_list = stopwords.words("english")
+#     filtered_tokens = [[token for token in doc if token not in stopwords_list] for doc in tokens]
+
+#     # Apply stemming
+#     stemmer = PorterStemmer()
+#     stemmed_tokens = [[stemmer.stem(token) for token in doc] for doc in filtered_tokens]
+
+#     # Define the query
+#     query = search_word
+
+#     # Tokenize and stem the query
+#     query_tokens = [stemmer.stem(token.lower()) for token in word_tokenize(query) if token.lower() not in stopwords_list]
+#     result = []
+#     docs = []  # Dictionary untuk menyimpan nomor dokumen
+#     for i, doc in enumerate(stemmed_tokens):
+#         if all(term in doc for term in query_tokens):
+#             result.append(documents[i])
+#             docs.append(i+1)   # Tambahkan nomor dokumen ke dalam dictionary
+#     return {'doc': docs, 'text': result}
+
+
+def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, input_doc2, input_doc3, search_word, documents, vsm_value, boolean_value_checkbox):
     # arr_doc1 = []
     # arr_doc2 = []
-    arr_query = data_retrieval(stop_word_value, wnl_value, porter_value, search_word)
-    arr_doc1 = data_retrieval(stop_word_value, wnl_value, porter_value, input_doc1)
-    arr_doc2 = data_retrieval(stop_word_value, wnl_value, porter_value, input_doc2)
-    arr_doc3 = data_retrieval(stop_word_value, wnl_value, porter_value, input_doc3)    
+    arr_query = preprocessing(stop_word_value, wnl_value, porter_value, search_word)
+    arr_doc1 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc1)
+    arr_doc2 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc2)
+    arr_doc3 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc3)    
     token_array = list(set(arr_doc1 + arr_doc2 + arr_doc3))
     
     count1 = 0
@@ -222,24 +216,50 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
             
         cos_rank = len(cos_document) - rankdata(cos_document, method='average') + 1
         rank = [int(x) for x in cos_rank]
+
+        import re
+        pattern = r'\b(NOT|OR|AND)\b'
+
+        
+
+        if boolean_value_checkbox is not None:
+            if re.search(pattern, search_word):
+                # print("Kata ditemukan!")
+                boolean = main_co(search_word, documents)
+            else:
+                boolean = {
+                    'doc': ' [tidak ada dokumen yg cocok] ',
+                    'text': 'X X X X X'
+                }
+        else:
+            boolean = {
+                'doc': ' [tidak ada dokumen yg cocok] ',
+                'text': 'X X X X X'
+            }
         
         return {'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
                 'token_array': token_array, 'q': q, 'd1': d1_count, 'd2': d2_count, 'd3': d3_count, 'df': df, 'D': D, 'log': log, 'log_1': log_1, 'w_q': w_q, 'w_d1': w_d1, 'w_d2': w_d2, 'w_d3': w_d3,
                 'v_q': v_q, 'v_d1': v_d1, 'v_d2': v_d2, 'v_d3': v_d3, 'sqrt_q': sqrt_q, 'sqrt_d1': sqrt_d1, 'sqrt_d2': sqrt_d2, 'sqrt_d3': sqrt_d3,
                 'vsm_d1': vsm_d1, 'vsm_d2': vsm_d2, 'vsm_d3': vsm_d3, 'sum_vsm_d1': sum_vsm_d1, 'sum_vsm_d2': sum_vsm_d2, 'sum_vsm_d3': sum_vsm_d3,
-                'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_document': cos_document, 'cos_rank': rank}    
+                'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_document': cos_document, 'cos_rank': rank, 'boolean': boolean, 
+                'vsm_value': vsm_value, 'boolean_value_checkbox':boolean_value_checkbox}    
     
     else:
         cos_d1 = 0
         cos_d2 = 0
         cos_d3 = 0
         rank = 'x'
+        boolean = {
+            'doc': ' [tidak ada dokumen yg cocok] ',
+            'text': 'X X X X X'
+        }
         
-        return {'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_rank': rank}    
+        return {'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
+                'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_rank': rank, 'boolean': boolean, 'vsm_value': vsm_value, 'boolean_value_checkbox': boolean_value_checkbox}
         
 
 
-def data_retrieval(stop_word_value, wnl_value, porter_value, input_text):
+def preprocessing(stop_word_value, wnl_value, porter_value, input_text):
     # Create a stop word list for English
     if (stop_word_value is None):
         tokenizing_sentence = [word for word in word_tokenize(input_text.lower())]
@@ -260,81 +280,6 @@ def data_retrieval(stop_word_value, wnl_value, porter_value, input_text):
         new_sentence = porter(tokenizing_sentence)
     else:
         new_sentence = tokenizing_sentence        
-
-    # tokens_without_punct
-    without_punctuation = [token for token in new_sentence if token not in string.punctuation]
-    final_sentence = ' '.join(without_punctuation)
-    # print(tokens_without_punct)
-
-    # print(final_sentence)
-    # , 'porter_sentence': porter_sentence, 'wnl_sentence': wnl_sentence
-    # return {'final_sentence': final_sentence, "input_text": input_text}
-    return without_punctuation
-
-def wnl(tokenizing_sentence):
-    wnl = WordNetLemmatizer()
-    new_sentence = []
-    i = 0
-    while(i<len(tokenizing_sentence)):
-        if(str(tokenizing_sentence[i]).endswith('e')):
-            lemmatized_word_e = wnl.lemmatize(str(tokenizing_sentence[i]))
-            new_sentence.append(lemmatized_word_e)
-            # print(lemmatized_word)
-        elif(str(tokenizing_sentence[i]).endswith('s')):
-            lemmatized_word_s = wnl.lemmatize(str(tokenizing_sentence[i]))
-            new_sentence.append(lemmatized_word_s)
-            # print(lemmatized_word_s)
-        elif(str(tokenizing_sentence[i]).endswith('y')):
-            new_sentence.append(str(tokenizing_sentence[i]))
-        elif(str(tokenizing_sentence[i]).endswith('ed')):
-            lemmatized_word_ed = wnl.lemmatize(str(tokenizing_sentence[i]), pos='v')
-            new_sentence.append(lemmatized_word_ed)
-        else:
-            new_sentence.append(tokenizing_sentence[i])
-        i+=1
-
-    return new_sentence
-
-
-def porter(tokenizing_sentence):
-    porter = PorterStemmer()
-    new_sentence = []
-    i = 0
-    while(i<len(tokenizing_sentence)):
-        stemmed_words = porter.stem(str(tokenizing_sentence[i]))
-        new_sentence.append(stemmed_words)
-            # print(lemmatized_word_ed)
-        i+=1
-    return new_sentence
-
-def wnl_porter(tokenizing_sentence):
-    porter = PorterStemmer()    
-    wnl = WordNetLemmatizer()    
-    
-    # NEW FORMULA WITH PORTER AND WNL
-    new_sentence = []
-    i = 0
-    while(i<len(tokenizing_sentence)):
-        if(str(tokenizing_sentence[i]).endswith('e')):
-            lemmatized_word_e = wnl.lemmatize(str(tokenizing_sentence[i]))
-            new_sentence.append(lemmatized_word_e)
-            # print(lemmatized_word)
-        elif(str(tokenizing_sentence[i]).endswith('s')):
-            lemmatized_word_s = wnl.lemmatize(str(tokenizing_sentence[i]))
-            new_sentence.append(lemmatized_word_s)
-            # print(lemmatized_word_s)
-        elif(str(tokenizing_sentence[i]).endswith('y')):
-            new_sentence.append(str(tokenizing_sentence[i]))
-        elif(str(tokenizing_sentence[i]).endswith('ed')):
-            lemmatized_word_ed = wnl.lemmatize(str(tokenizing_sentence[i]), pos='v')
-            new_sentence.append(lemmatized_word_ed)
-            # print(lemmatized_word_ed)
-        else:
-            stemmed_words = porter.stem(str(tokenizing_sentence[i]))
-            new_sentence.append(stemmed_words)
-            # print(stemmed_words)
-
-        i+=1
 
     # tokens_without_punct
     without_punctuation = [token for token in new_sentence if token not in string.punctuation]

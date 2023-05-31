@@ -6,13 +6,13 @@ import pandas as pd
 from nltk.corpus import stopwords
 import re
 # Data contoh
-documents = {
-    1: "Blue is my favorite color",
-    2: "Sky is blue and sea is blue",
-    3: "sky is blue and sky is beautiful",
-    4: "color of sky and sea is blue",
-    5: "I saw a blue car yesterday"
-}
+# documents = {
+#     1: "Blue is my favorite color",
+#     2: "Sky is blue and sea is blue",
+#     3: "sky is blue and sky is beautiful",
+#     4: "color of sky and sea is blue",
+#     5: "I saw a blue car yesterday"
+# }
 
 # Fungsi untuk menghitung term frequency (tf)
 def calculate_tf(documents):
@@ -121,13 +121,16 @@ def main_co(query, documents):
     binary_values = [documents_containing_term(term, tf_df) or term for term in query_terms]
     results = boolean_retrieval(binary_values)
     matching_documents = [doc_id for doc_id, result in enumerate(results, start=1) if result == '1']
+    # boolean = [documents[id] for id in matching_documents if id in documents]
     result = {
         'doc': matching_documents,
-        'text': [documents[id] for id in matching_documents if id in documents]
+        'text': documents,
+        # 'text': [documents[id] for id in matching_documents if id in documents]
     }
     
     #documents[doc_id] for doc_id in matching_documents if doc_id in documents
     return result
+    # return result
    
 
 
