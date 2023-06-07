@@ -83,12 +83,26 @@
             <div class="card m-lg-4">
                 <div class="card-header table-name">
                     <!-- This is the original text: -->
-                    Kata yang Dicari (Query)
+                    Kata Dicari (Query)
                 </div>
                 <div class="card-body">
                     <blockquote class="blockquote">
                         <!-- <p> {{ result.input_text }} </p> -->
-                        <p> {{ search_word }} </p>
+                        <p> {{ result.search_word }} </p>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="card m-lg-4">
+                <div class="card-header table-name">
+                    <!-- This is the original text: -->
+                    Dokumen Keseluruhan (Input)
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote">
+                        <!-- <p> {{ result.input_text }} </p> -->
+                        {% for key, value in input_text.items() %}
+                        <p> {{ key }}: {{ value }} </p>
+                        {% endfor %}
                     </blockquote>
                 </div>
             </div>
@@ -101,11 +115,12 @@
                     <div class="col">
                         <div class="card-body">
                             <blockquote class="blockquote">
+                                <p><b>Dokumen 1:</b></p>
                                 <i class="fa fa-quote-left">
                                     <!-- <p> {{ result.final_sentence }} </p> -->
                                     <!-- <p> {{ result.search_word }} </p> -->
                                     <p> {{ result.arr_doc1 }} </p>
-                                    <p> Count in Document 1 : {{ result.count1 }} </p>
+                                    <p> Jumlah kata serupa : {{ result.count1 }} </p>
                                 </i>
                             </blockquote>
                         </div>
@@ -113,10 +128,11 @@
                     <div class="col">
                         <div class="card-body">
                             <blockquote class="blockquote">
+                                <p><b>Dokumen 2:</b></p>
                                 <i class="fa fa-quote-left">
                                     <!-- <p> {{ result.final_sentence }} </p> -->
                                     <p> {{ result.arr_doc2 }} </p>
-                                    <p> Count in Document 2 : {{ result.count2 }} </p>
+                                    <p> Jumlah kata serupa : {{ result.count2 }} </p>
                                 </i>
                             </blockquote>
                         </div>
@@ -124,10 +140,11 @@
                     <div class="col">
                         <div class="card-body">
                             <blockquote class="blockquote">
+                                <p><b>Dokumen 3:</b></p>
                                 <i class="fa fa-quote-left">
                                     <!-- <p> {{ result.final_sentence }} </p> -->
                                     <p> {{ result.arr_doc3 }} </p>
-                                    <p> Count in Document 3 : {{ result.count3 }} </p>
+                                    <p> Jumlah kata serupa : {{ result.count3 }} </p>
                                 </i>
                             </blockquote>
                         </div>
@@ -140,28 +157,51 @@
                     Boolean Result
                 </div>
                 <div class="row">
-                    <div class="col">
+                    {% if result.vsm_value is not none %}
+                    <div class="col-md-3">
                         <div class="card-body">
                             <blockquote class="blockquote">
                                 <i class="fa fa-quote-left">
-                                    <!-- <p> {{ result.final_sentence }} </p> -->
-                                    <!-- <p> {{ result.search_word }} </p> -->
-                                    <!-- <p> Document {{ result}}</p> -->
-                                    <!-- Berdasarkan VSM -->
-                                    {% if result.vsm_value is not none %}
-                                    <p>Nomor Dokumen: {{ result.boolean.doc }} </p>
-                                    <p>Isi Dokumen: <br> {{ result.boolean.text }} </p>
-                                    {% else %}
-                                    <p>Nomor Dokumen: {{ result.boolean.doc }} </p>
-                                    <p>Isi Dokumen: <br> {{ result.boolean.text }} </p>
-                                    {% endif %}
-                                    <!-- <br> -->
-                                    <!-- Berdasarkan Boolean -->
-                                    <!-- <p> Count in Document 1 : {{ result.count1 }} </p> -->
+                                    <p>Nomor Dokumen yang sesuai: {{ result.boolean.doc }} </p>
                                 </i>
                             </blockquote>
                         </div>
                     </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <i class="fa fa-quote-left">
+                                    <p>Isi Dokumen tersebut: <br> </p>
+                                    {% for i in range(0, result.boolean.doc|length): %}
+                                    <p> {{ result.boolean.doc[i] }}: {{ result.boolean.text[i] }} </p>
+                                    {% endfor %}
+                                </i>
+                            </blockquote>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-md-3">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <i class="fa fa-quote-left">
+                                    <p>Nomor Dokumen yang sesuai: {{ result.boolean.doc }} </p>
+                                </i>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <i class="fa fa-quote-left">
+                                    <p>Isi Dokumen tersebut: <br> </p>
+                                    {% for i in range(0, result.boolean.doc|length): %}
+                                    <p> {{ result.boolean.doc[i] }}: {{ result.boolean.text[i] }} </p>
+                                    {% endfor %}
+                                </i>
+                            </blockquote>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -396,12 +436,12 @@
                 </div>
             </div>
 
-                <div class="d-grid">
-                    <a href="/" class="btn btn-warning">Go Back</a>
-                </div>
+            <div class="d-grid">
+                <a href="/" class="btn btn-warning">Go Back</a>
+            </div>
 
 
-                <!-- <br>
+            <!-- <br>
         <p>This is your data retrieval result with just (porter): 
             <h2> {{ result.porter_sentence }} </h2>    
         </p>
@@ -409,8 +449,8 @@
         <p>This is your data retrieval result with just (wnl): 
             <h2> {{ result.wnl_sentence }} </h2>    
         </p> -->
-            </div>
         </div>
+    </div>
 </body>
 
 </html>

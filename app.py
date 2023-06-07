@@ -58,32 +58,22 @@ def data_result():
         input_text2 = request.form['input_text2']
         input_text3 = request.form['input_text3']
         search_word = request.form['search_word']
-                
-        # exclude_words = ["OR", "AND", "NOT"]
-        # for word in search_word:
-        #     if 'and' in word:
-        #         boolean_value = 1
-        #     elif 'not' in word:
-        #         boolean_value = 1
-        #     elif 'or' in word:
-        #         boolean_value = 1
-        #     else:
-        #         boolean_value = None
 
         documents={
             '1': input_text1,
             '2': input_text2,
             '3': input_text3
         }
+        # html_list = ''
+        # for key, value in documents.items():
+        #     html_list += f"\n{key}: {value}\n"
  
         if(vsm_value == 'None'):
             result = main_co(search_word, documents)
         else:           
             result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word, documents, vsm_value, boolean_value_checkbox)
 
-            
-
-        return render_template('result_text.html', result=result, search_word=search_word)    
+        return render_template('result_text.html', result=result, input_text=documents)    
     
 
 @app.route('/txt', methods=['GET'])
@@ -98,7 +88,7 @@ def data_result_txt():
         wnl_value = request.form.get('checkbox2')
         porter_value = request.form.get('checkbox3')
         vsm_value = request.form.get('checkbox4')
-        boolean_value = request.form.get('checkbox5')
+        boolean_value_checkbox = request.form.get('checkbox5')
 
         # reading file proccess
         file1 = request.files['myfile1']
@@ -127,14 +117,17 @@ def data_result_txt():
             '2': input_text2,
             '3': input_text3
         }
+        # html_list = ''
+        # for key, value in documents.items():
+        #     html_list += f"\n{key}: {value}\n"
  
-        if(vsm_value is not None):
-            result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word, documents, vsm_value, boolean_value)      
-        else:
+        if(vsm_value == 'None'):
             result = main_co(search_word, documents)
+        else:           
+            result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word, documents, vsm_value, boolean_value_checkbox)
 
         # return file_contents
-        return render_template('result_txt.html', result=result, search_word=search_word)
+        return render_template('result_txt.html', result=result, input_text=documents)
 
 
 @app.route('/', methods=['GET'])

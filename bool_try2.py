@@ -121,16 +121,25 @@ def main_co(query, documents):
     binary_values = [documents_containing_term(term, tf_df) or term for term in query_terms]
     results = boolean_retrieval(binary_values)
     matching_documents = [doc_id for doc_id, result in enumerate(results, start=1) if result == '1']
-    # boolean = [documents[id] for id in matching_documents if id in documents]
+
+    documents_list = list(documents)
+    matching_documents_list = list(map(str, matching_documents))
+    boolean = [documents.get(id) for id in matching_documents_list if id in documents_list]
+    # boolean = ''
+    # for item in boolean_result:
+    #     boolean += item + '\n'
+    
     result = {
         'doc': matching_documents,
-        'text': documents,
+        'text': boolean,
         # 'text': [documents[id] for id in matching_documents if id in documents]
     }
     
     #documents[doc_id] for doc_id in matching_documents if doc_id in documents
     return result
     # return result
+
+# main_co("dog OR mom", {'1':'Mom making dinner in the kitchen then cooking again after dinner', '2':'It was thought by the dog that it was actually a groundhog.', '3':'Mother cooking in the kitchen'})
    
 
 
