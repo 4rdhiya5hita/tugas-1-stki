@@ -208,7 +208,7 @@ if mode == "1":
         print("\nQuery Ranking (Incident Matrix):")
         print(ranking_table)
 
-        # Tanya pengguna apakah ingin melakukan query ranking lainnya atau memilih mode pilihan 1 atau 2
+        # Tanya pengguna apakah ingin melakukan query ranking lainnya
         choice = input("Apakah Anda ingin melakukan query ranking lainnya? (y/n) ")
         if choice.lower() != 'y':
             break
@@ -225,7 +225,7 @@ elif mode == "2":
         print("\nQuery Ranking (Inverted Index):")
         print(ranking_table)
 
-        # Tanya pengguna apakah ingin melakukan query ranking lainnya atau memilih mode pilihan 1 atau 2
+        # Tanya pengguna apakah ingin melakukan query ranking lainnya
         choice = input("Apakah Anda ingin melakukan query ranking lainnya? (y/n) ")
         if choice.lower() != 'y':
             break
