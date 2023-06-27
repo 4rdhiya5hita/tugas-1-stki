@@ -21,7 +21,7 @@ def preprosess(text, stoptog):
     # Tokenisasi
     words = word_tokenize(text)
 
-    print("Tokenisasi :")
+    print("Tokenisasi :")    
     print(words, "\n")
 
     # Mengubah menjadi huruf kecil dan menghapus tanda baca
@@ -207,7 +207,7 @@ def document_ranking_inverted(query, inverted_index):
     # print('query', query)
     # print(ranking_table)
     return ranking_table
-# stoppick = 'y'
+
                 
 # # Pilihan menu
 # print("Please choose between 2 menu below:")

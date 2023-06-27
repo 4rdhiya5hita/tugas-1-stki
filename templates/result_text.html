@@ -152,56 +152,124 @@
                 </div>
             </div>
 
-            <div class="card m-lg-4" {% if result.boolean_value_checkbox is not none %} {% else %} hidden {% endif %}>
-                <div class="card-header table-name">
-                    Boolean Result
+            <div {% if result.boolean_value_checkbox is not none %} {% else %} hidden {% endif %}>
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Boolean Result
+                    </div>
+                    <div class="row">
+                        {% if result.vsm_value is not none %}
+                        <div class="col-md-3">
+                            <div class="card-body">
+                                <blockquote class="blockquote">
+                                    <i class="fa fa-quote-left">
+                                        <p>Nomor Dokumen yang sesuai: {{ result.boolean.doc }} </p>
+                                    </i>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <blockquote class="blockquote">
+                                    <i class="fa fa-quote-left">
+                                        <p>Isi Dokumen tersebut: <br> </p>
+                                        {% for i in range(0, result.boolean.doc|length): %}
+                                        <p> {{ result.boolean.doc[i] }}: {{ result.boolean.text[i] }} </p>
+                                        {% endfor %}
+                                    </i>
+                                </blockquote>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-md-3">
+                            <div class="card-body">
+                                <blockquote class="blockquote">
+                                    <i class="fa fa-quote-left">
+                                        <p>Nomor Dokumen yang sesuai: {{ result.boolean.doc }} </p>
+                                    </i>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <blockquote class="blockquote">
+                                    <i class="fa fa-quote-left">
+                                        <p>Isi Dokumen tersebut: <br> </p>
+                                        {% for i in range(0, result.boolean.doc|length): %}
+                                        <p> {{ result.boolean.doc[i] }}: {{ result.boolean.text[i] }} </p>
+                                        {% endfor %}
+                                    </i>
+                                </blockquote>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="row">
-                    {% if result.vsm_value is not none %}
-                    <div class="col-md-3">
-                        <div class="card-body">
-                            <blockquote class="blockquote">
-                                <i class="fa fa-quote-left">
-                                    <p>Nomor Dokumen yang sesuai: {{ result.boolean.doc }} </p>
-                                </i>
-                            </blockquote>
-                        </div>
+
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Tabel Term Frekuensi Biner
                     </div>
-                    <div class="col-md-9">
-                        <div class="card-body">
-                            <blockquote class="blockquote">
-                                <i class="fa fa-quote-left">
-                                    <p>Isi Dokumen tersebut: <br> </p>
-                                    {% for i in range(0, result.boolean.doc|length): %}
-                                    <p> {{ result.boolean.doc[i] }}: {{ result.boolean.text[i] }} </p>
-                                    {% endfor %}
-                                </i>
-                            </blockquote>
-                        </div>
+                    <div class="row m-lg-4">
+                        <table class="tg">
+                            <thead>
+                                <tr>
+                                    <th>Term</th>
+                                    <th>D1</th>
+                                    <th>D2</th>
+                                    <th>D3</th>
+                                    <th>Binary Total</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                {% for i in range(result.token_array|length) %}
+                                <tr {% if result.token_array[i] in result.arr_query %} style="font-weight: bold;" {%
+                                    endif %}>
+                                    <td>{{ result.token_array[i] }}</td>
+                                    <td>{{ result.d1_bool[i] }}</td>
+                                    <td>{{ result.d2_bool[i] }}</td>
+                                    <td>{{ result.d3_bool[i] }}</td>
+                                    <td>{{ result.d1_bool[i] }}{{ result.d2_bool[i] }}{{ result.d3_bool[i] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                    {% else %}
-                    <div class="col-md-3">
-                        <div class="card-body">
-                            <blockquote class="blockquote">
-                                <i class="fa fa-quote-left">
-                                    <p>Nomor Dokumen yang sesuai: {{ result.boolean.doc }} </p>
-                                </i>
-                            </blockquote>
-                        </div>
+                </div>
+
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Tabel Proses Incidence Matrix
                     </div>
-                    <div class="col-md-9">
-                        <div class="card-body">
-                            <blockquote class="blockquote">
-                                <i class="fa fa-quote-left">
-                                    <p>Isi Dokumen tersebut: <br> </p>
-                                    {% for i in range(0, result.boolean.doc|length): %}
-                                    <p> {{ result.boolean.doc[i] }}: {{ result.boolean.text[i] }} </p>
-                                    {% endfor %}
-                                </i>
-                            </blockquote>
-                        </div>
+                    <div class="row m-lg-4">
+                        <blockquote class="blockquote">
+                            <i class="fa fa-quote-left">
+                                <p>Boolean Query Retrieval: {{ result.boolean.binary_values }}</p>
+                            </i>
+                        </blockquote>
+
+
+                        <table class="tg">
+                            <thead>
+                                <tr>
+                                    <th>Stack</th>
+                                    <th>Proses</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                {% for i in range(result.boolean.hasil_boolean.tabel_stack|length) %}
+                                <tr>
+                                    <td>Stack ke-{{ i+1 }}</td>
+                                    <td>{{ result.boolean.hasil_boolean.tabel_stack[i] }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr style="font-weight: bold;">
+                                    <td>Hasil</td>
+                                    <td>{{ result.boolean.hasil_boolean.result }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    {% endif %}
                 </div>
             </div>
 
@@ -489,7 +557,7 @@
 
 
             <!-- <br>
-        <p>This is your data retrieval result with just (porter): 
+        <p>This is your data retrieval result with just (portWer): 
             <h2> {{ result.porter_sentence }} </h2>    
         </p>
         <br>
