@@ -21,7 +21,7 @@ def preprosess(text, stoptog):
     # Tokenisasi
     words = word_tokenize(text)
 
-    print("Tokenisasi :")
+    print("Tokenisasi :")    
     print(words, "\n")
 
     # Mengubah menjadi huruf kecil dan menghapus tanda baca
@@ -185,15 +185,15 @@ stoppick = 'y'
                 
 # Pilihan menu
 print("Please choose between 2 menu below:")
-print("1. Incident matrix")
+print("1. Incidence matrix")
 print("2. Inverted index")
 mode = input("Enter your choice: ")
 print('')
 
-    # Pilihan penghapusan Stopword
-    stoppick = input("Hapus Stopword? (y/n): ")
-    print('')
-    stoppick = stoppick.lower()
+# Pilihan penghapusan Stopword
+stoppick = input("Hapus Stopword? (y/n): ")
+print('')
+stoppick = stoppick.lower()
 
 # Jalankan fungsi sesuai mode
 if mode == "1":

@@ -76,8 +76,7 @@ def documents_containing_term(term, tf_df):
 
 
 def boolean_retrieval(documents):
-   
-    num = (len(documents)-1) // 2
+    
     tabel_stack = []
     stack = []
     output_queue = []
@@ -122,8 +121,8 @@ def boolean_retrieval(documents):
         else:
             stack.append(term)
         # print("Setiap hasil: ", stack)
-        if index >= num:  # Menyimpan hasil ke tabel_stack ketika mencapai indeks ke-num
-            tabel_stack.append(stack.copy())
+        # if index >= num:  # Menyimpan hasil ke tabel_stack ketika mencapai indeks ke-num
+        tabel_stack.append(stack.copy())
         
     # print("Hasil akhir stack: ", stack)
     # print("Hasil akhir output_queue: ", output_queue)
@@ -173,7 +172,7 @@ def main_co(query, documents):
     return result
     # return result
 
-main_co("dog OR mom AND kitchen", {'1':'Mom making dinner in the kitchen then cooking again after dinner', '2':'It was thought by the dog that it was actually a groundhog.', '3':'Mother cooking in the kitchen'})
+# main_co("dog OR mom AND kitchen", {'1':'Mom making dinner in the kitchen then cooking again after dinner', '2':'It was thought by the dog that it was actually a groundhog.', '3':'Mother cooking in the kitchen'})
    
 # def main_co(query, documents):
 
