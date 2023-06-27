@@ -44,7 +44,7 @@ def preprosess(text, stoptog):
 
 
 # Incident Matrix
-def im():
+def im(stoppick):
     # Preprocessing masing-masing doc
     docs_pros = []
     n = 1
@@ -86,7 +86,7 @@ def im():
     return doc_term_matrix
 
 # Inverted Inddex
-def inver_i():
+def inver_i(stoppick):
     # Preprocessing masing-masing doc
     docs_pros = []
     docrefs = []
@@ -137,22 +137,25 @@ def inver_i():
     for item in doc_inverse_index:
         print (item + " :", doc_inverse_index[item])
 
-# Pilihan mode
-print("1. incident matrix")
-print("2. inverted index")
-mode = input("Input your choice: ")
-print('')
-
-# Pilihan penghapusan Stopword
-stoppick = input("Hapus Stopword? (y/n): ")
-print('')
-stoppick = stoppick.lower()
 
 # Jalankan fungsi sesuai mode
-match mode:
-    case "1":
-        im()
-    case "2":
-        inver_i()
-    case _:
+def match_mode():
+    # Pilihan mode
+    print("1. incident matrix")
+    print("2. inverted index")
+    mode = input("Input your choice: ")
+    print('')
+
+    # Pilihan penghapusan Stopword
+    stoppick = input("Hapus Stopword? (y/n): ")
+    print('')
+    stoppick = stoppick.lower()
+
+    if mode == "1":
+        im(stoppick)
+    elif mode == "2":
+        inver_i(stoppick)
+    else:
         print("Mode tidak ditemukan")
+
+match_mode()

@@ -9,35 +9,6 @@ from preprocessing import wnl, porter, wnl_porter
 
 from bool_try2 import main_co
 
-
-# def boolean_retrieval (input_doc1, input_doc2, input_doc3, search_word):
-#     # Tokenize the documents
-#     documents = [input_doc1, input_doc2, input_doc3]
-
-#     tokens = [word_tokenize(doc.lower()) for doc in documents]
-
-#     # Remove stopwords
-#     stopwords_list = stopwords.words("english")
-#     filtered_tokens = [[token for token in doc if token not in stopwords_list] for doc in tokens]
-
-#     # Apply stemming
-#     stemmer = PorterStemmer()
-#     stemmed_tokens = [[stemmer.stem(token) for token in doc] for doc in filtered_tokens]
-
-#     # Define the query
-#     query = search_word
-
-#     # Tokenize and stem the query
-#     query_tokens = [stemmer.stem(token.lower()) for token in word_tokenize(query) if token.lower() not in stopwords_list]
-#     result = []
-#     docs = []  # Dictionary untuk menyimpan nomor dokumen
-#     for i, doc in enumerate(stemmed_tokens):
-#         if all(term in doc for term in query_tokens):
-#             result.append(documents[i])
-#             docs.append(i+1)   # Tambahkan nomor dokumen ke dalam dictionary
-#     return {'doc': docs, 'text': result}
-
-
 def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, input_doc2, input_doc3, search_word, documents, vsm_value, boolean_value_checkbox):
     # arr_doc1 = []
     # arr_doc2 = []
@@ -65,6 +36,26 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
             if search == word:
                 count3 += 1
     
+    d1_bool = []
+    d2_bool = []
+    d3_bool = []
+
+    for word in token_array:
+        if word in arr_doc1:
+            d1_bool.append(1)
+        else:
+            d1_bool.append(0)
+
+        if word in arr_doc2:
+            d2_bool.append(1)
+        else:
+            d2_bool.append(0)
+
+        if word in arr_doc3:
+            d3_bool.append(1)
+        else:
+            d3_bool.append(0)
+
     # index = my_list.index(search_word)
 
     # # Create a new list starting from the search word
@@ -218,9 +209,7 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
         rank = [int(x) for x in cos_rank]
 
         import re
-        pattern = r'\b(NOT|OR|AND)\b'
-
-        
+        pattern = r'\b(NOT|OR|AND)\b'    
 
         if boolean_value_checkbox is not None:
             if re.search(pattern, search_word):
@@ -237,12 +226,13 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
                 'text': 'X X X X X'
             }
         
-        return {'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
+        return {'arr_query':arr_query, 'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
                 'token_array': token_array, 'q': q, 'd1': d1_count, 'd2': d2_count, 'd3': d3_count, 'df': df, 'D': D, 'log': log, 'log_1': log_1, 'w_q': w_q, 'w_d1': w_d1, 'w_d2': w_d2, 'w_d3': w_d3,
                 'v_q': v_q, 'v_d1': v_d1, 'v_d2': v_d2, 'v_d3': v_d3, 'sqrt_q': sqrt_q, 'sqrt_d1': sqrt_d1, 'sqrt_d2': sqrt_d2, 'sqrt_d3': sqrt_d3,
                 'vsm_d1': vsm_d1, 'vsm_d2': vsm_d2, 'vsm_d3': vsm_d3, 'sum_vsm_d1': sum_vsm_d1, 'sum_vsm_d2': sum_vsm_d2, 'sum_vsm_d3': sum_vsm_d3,
                 'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_document': cos_document, 'cos_rank': rank, 'boolean': boolean, 
-                'vsm_value': vsm_value, 'boolean_value_checkbox':boolean_value_checkbox}    
+                'vsm_value': vsm_value, 'boolean_value_checkbox':boolean_value_checkbox, 
+                'd1_bool':d1_bool, 'd2_bool':d2_bool, 'd3_bool':d3_bool}
     
     else:
         cos_d1 = 0
@@ -254,7 +244,7 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
             'text': 'X X X X X'
         }
         
-        return {'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
+        return {'arr_query':arr_query, 'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
                 'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_rank': rank, 'boolean': boolean, 'vsm_value': vsm_value, 'boolean_value_checkbox': boolean_value_checkbox}
         
 

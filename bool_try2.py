@@ -38,12 +38,19 @@ def calculate_tf(documents):
     # Membuat dataframe untuk tabel term frequency
     tf_df = pd.DataFrame(columns=['Term'] + list(documents.keys()))
     
+    tabel_tf = []
     for term in all_terms:
         tf_values = []
         for doc_id, tokens in tokenized_docs.items():
             tf_values.append(int(term in tokens))  # Jika term ada dalam tokens, nilai biner = 1, jika tidak = 0
         tf_df.loc[len(tf_df)] = [term] + tf_values
+        tabel_tf.append(tf_values)
     tf_df['Binary_Total'] = tf_df.iloc[:, 1:].apply(lambda x: ''.join(map(str, x)), axis=1)
+
+    # print("Result all_terms: ", all_terms)
+    # print(' ')
+    # print("Result tf_values: ", tabel_tf)
+    # print(' ')
     return tf_df
 
  #membuat dataframe-> jadi masing2 kata menjadi bilangan biner
@@ -70,6 +77,8 @@ def documents_containing_term(term, tf_df):
 
 def boolean_retrieval(documents):
    
+    num = (len(documents)-1) // 2
+    tabel_stack = []
     stack = []
     output_queue = []
     precedence = {'AND': 2, 'OR': 1, 'NOT': 3}
@@ -89,12 +98,16 @@ def boolean_retrieval(documents):
             stack.pop()
         else:
             output_queue.append(term)
+        # print("output_queue 1: ", output_queue)
+        
     
     while stack:
         output_queue.append(stack.pop())
+        # print("output_queue 2: ", output_queue)
+
 
     # Mengevaluasi notasi postfix
-    for term in output_queue:
+    for index, term in enumerate(output_queue):
         if term in operators:
             operand2 = stack.pop()
             if term == 'NOT':
@@ -108,10 +121,22 @@ def boolean_retrieval(documents):
             stack.append(result)
         else:
             stack.append(term)
-
+        # print("Setiap hasil: ", stack)
+        if index >= num:  # Menyimpan hasil ke tabel_stack ketika mencapai indeks ke-num
+            tabel_stack.append(stack.copy())
+        
+    # print("Hasil akhir stack: ", stack)
+    # print("Hasil akhir output_queue: ", output_queue)
     # Hasil akhir adalah operand terakhir yang tersisa di stack
     result = stack.pop()
-    return result
+    hasil = {
+        'tabel_stack': tabel_stack,
+        'result': result
+    }
+    # print(' ')
+    # print(num)
+    # print(tabel_stack)
+    return hasil
 
 # Contoh penggunaan
 def main_co(query, documents):
@@ -120,7 +145,7 @@ def main_co(query, documents):
     query_terms = re.findall(r'\(|\)|\w+|\S+\s*', query)
     binary_values = [documents_containing_term(term, tf_df) or term for term in query_terms]
     results = boolean_retrieval(binary_values)
-    matching_documents = [doc_id for doc_id, result in enumerate(results, start=1) if result == '1']
+    matching_documents = [doc_id for doc_id, result in enumerate(results['result'], start=1) if result == '1']
 
     documents_list = list(documents)
     matching_documents_list = list(map(str, matching_documents))
@@ -132,16 +157,25 @@ def main_co(query, documents):
     result = {
         'doc': matching_documents,
         'text': boolean,
+        'hasil_boolean': results,
+        'binary_values': binary_values
         # 'text': [documents[id] for id in matching_documents if id in documents]
     }
     
     #documents[doc_id] for doc_id in matching_documents if doc_id in documents
+    # print("Result boolean: ", result)
+    # print(' ')
+    # print("Result tf_df: ", tf_df)
+    # print(' ')
+    # print("Result binary_values: ", binary_values)
+    # print(' ')
+
     return result
     # return result
 
-# main_co("dog OR mom", {'1':'Mom making dinner in the kitchen then cooking again after dinner', '2':'It was thought by the dog that it was actually a groundhog.', '3':'Mother cooking in the kitchen'})
+main_co("dog OR mom AND kitchen", {'1':'Mom making dinner in the kitchen then cooking again after dinner', '2':'It was thought by the dog that it was actually a groundhog.', '3':'Mother cooking in the kitchen'})
    
-
+# def main_co(query, documents):
 
 
 # result = main_co('blue AND sky', documents)
