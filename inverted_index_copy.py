@@ -109,30 +109,29 @@ def document_ranking(query, doc_term_matrix):
 stoppick = 'y'
         
 # Inverted Inddex
-def build_inverted_index(result_list):
+def build_inverted_index():
     # Preprocessing masing-masing doc
     docs_pros = []
     docrefs = []
-    stoppick = 'y'
     n = 1
-    for doc in result_list :
-        # print("prosessing doc #",n)
-        # print("---------------------------------")
-        doc_text = ' '.join(doc)
-        docs_pros.append(preprosess(doc_text, stoppick))
+    for doc in docs :
+        print("prosessing doc #",n)
+        print("---------------------------------")
+        docs_pros.append(preprosess(doc, stoppick))
         if stoppick == 'y':
-            docrefs.append(preprosess(doc_text, 'n'))
+            docrefs.append(preprosess(doc, 'n'))
         else:
-            docrefs.append(docs_pros[-1])
+           docrefs.append(docs_pros[-1])
         n += 1
 
-    # for doc in result_list :
-    #     docrefs.append(preprosess(doc, 'n'))
-    #     # docrefs.append(result_list[-1])
 
-    # print("---------------------------------")
-    # print("Preprosesing :")
-    # print(docs_pros, "\n")
+    print("---------------------------------")
+    print("docrefs :")
+    print(docrefs, "\n")
+    
+    print("---------------------------------")
+    print("Preprosesing :")
+    print(docs_pros, "\n")
 
     # Mencari kata unik
     unique_terms = []
@@ -160,28 +159,10 @@ def build_inverted_index(result_list):
                 doc_inverse_index[term].append([doc_num, word_count, word_pos_list])
 
     # Menampilkan inverted index
-    # print("Inverted List : ")
+    print("Inverted List : ")
     for item in doc_inverse_index:
         print (item + " :", doc_inverse_index[item])
-
-    inverted_list = []
-    print("Inverted List:")
-    for item in doc_inverse_index:
-        inverted_list.append({
-            'kata': item,
-            'dokumen': doc_inverse_index[item],
-        })
-        print(item + ":", doc_inverse_index[item])
-
-    result = {
-        'inverted_list': inverted_list,
-        'doc_inverse_index': doc_inverse_index,
-        # 'text': [documents[id] for id in matching_documents if id in documents]
-    }
-    print('inverted_list', inverted_list)
-    # print('doc_inverse_index', doc_inverse_index)
-    return result
-    # return doc_inverse_index
+    return doc_inverse_index
 
 def document_ranking_inverted(query, inverted_index):
     query_words = query.split(' ')
@@ -203,58 +184,56 @@ def document_ranking_inverted(query, inverted_index):
     for doc, score in sorted_documents:
         ranking_table.loc[len(ranking_table)] = ['Doc_' + str(doc), score]
 
-    # print('inverted_index', inverted_index)
-    # print('query', query)
-    # print(ranking_table)
+    print('bentukan inverted index nya', inverted_index)
     return ranking_table
-# stoppick = 'y'
+stoppick = 'y'
                 
-# # Pilihan menu
-# print("Please choose between 2 menu below:")
-# print("1. Incidence matrix")
-# print("2. Inverted index")
-# mode = input("Enter your choice: ")
-# print('')
+# Pilihan menu
+print("Please choose between 2 menu below:")
+print("1. Incidence matrix")
+print("2. Inverted index")
+mode = input("Enter your choice: ")
+print('')
 
-# # Pilihan penghapusan Stopword
-# stoppick = input("Hapus Stopword? (y/n): ")
-# print('')
-# stoppick = stoppick.lower()
+# Pilihan penghapusan Stopword
+stoppick = input("Hapus Stopword? (y/n): ")
+print('')
+stoppick = stoppick.lower()
 
-# # Jalankan fungsi sesuai mode
-# if mode == "1":
-#     # Panggil fungsi build_incidence_matrix() untuk membangun incident matrix
-#     doc_term_matrix = build_incidence_matrix()
+# Jalankan fungsi sesuai mode
+if mode == "1":
+    # Panggil fungsi build_incidence_matrix() untuk membangun incident matrix
+    doc_term_matrix = build_incidence_matrix()
 
-#     while True:
-#         # Lakukan peringkat dokumen berdasarkan query menggunakan incident matrix
-#         query = input("Masukkan query: ")
-#         ranking_table = document_ranking(query, doc_term_matrix)
+    while True:
+        # Lakukan peringkat dokumen berdasarkan query menggunakan incident matrix
+        query = input("Masukkan query: ")
+        ranking_table = document_ranking(query, doc_term_matrix)
 
-#         print("\nQuery Ranking (Incidence Matrix):")
-#         print(ranking_table)
+        print("\nQuery Ranking (Incidence Matrix):")
+        print(ranking_table)
 
-#         # Tanya pengguna apakah ingin melakukan query ranking lainnya atau memilih mode pilihan 1 atau 2
-#         choice = input("Apakah Anda ingin melakukan query ranking lainnya? (y/n) ")
-#         if choice.lower() != 'y':
-#             break
+        # Tanya pengguna apakah ingin melakukan query ranking lainnya atau memilih mode pilihan 1 atau 2
+        choice = input("Apakah Anda ingin melakukan query ranking lainnya? (y/n) ")
+        if choice.lower() != 'y':
+            break
 
-# elif mode == "2":
-#     # Panggil fungsi build_inverted_index() untuk membangun inverted index
-#     inverted_index = build_inverted_index()
+elif mode == "2":
+    # Panggil fungsi build_inverted_index() untuk membangun inverted index
+    inverted_index = build_inverted_index()
 
-#     while True:
-#         # Lakukan peringkat dokumen berdasarkan query menggunakan inverted index
-#         query = input("Masukkan query: ")
-#         ranking_table = document_ranking_inverted(query, inverted_index)
+    while True:
+        # Lakukan peringkat dokumen berdasarkan query menggunakan inverted index
+        query = input("Masukkan query: ")
+        ranking_table = document_ranking_inverted(query, inverted_index)
 
-#         print("\nQuery Ranking (Inverted Index):")
-#         print(ranking_table)
+        print("\nQuery Ranking (Inverted Index):")
+        print(ranking_table)
 
-#         # Tanya pengguna apakah ingin melakukan query ranking lainnya atau memilih mode pilihan 1 atau 2
-#         choice = input("Apakah Anda ingin melakukan query ranking lainnya? (y/n) ")
-#         if choice.lower() != 'y':
-#             break
+        # Tanya pengguna apakah ingin melakukan query ranking lainnya atau memilih mode pilihan 1 atau 2
+        choice = input("Apakah Anda ingin melakukan query ranking lainnya? (y/n) ")
+        if choice.lower() != 'y':
+            break
 
-# else:
-#     print("Invalid input!")
+else:
+    print("Invalid input!")

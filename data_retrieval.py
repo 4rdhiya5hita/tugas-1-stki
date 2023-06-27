@@ -6,6 +6,9 @@ import nltk
 nltk.download('omw-1.4')
 from nltk.tokenize import word_tokenize
 from preprocessing import wnl, porter, wnl_porter
+from inverted_index import build_inverted_index
+from inverted_index import document_ranking_inverted
+
 
 from bool_try2 import main_co
 
@@ -38,13 +41,15 @@ from bool_try2 import main_co
 #     return {'doc': docs, 'text': result}
 
 
-def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, input_doc2, input_doc3, search_word, documents, vsm_value, boolean_value_checkbox):
+def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, input_doc2, input_doc3, search_word, documents, vsm_value, boolean_value_checkbox, inverted_value_checkbox):
     # arr_doc1 = []
     # arr_doc2 = []
     arr_query = preprocessing(stop_word_value, wnl_value, porter_value, search_word)
     arr_doc1 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc1)
     arr_doc2 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc2)
-    arr_doc3 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc3)    
+    arr_doc3 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc3)  
+
+    result_list = [arr_doc1, arr_doc2, arr_doc3]
     token_array = list(set(arr_doc1 + arr_doc2 + arr_doc3))
     
     count1 = 0
@@ -217,15 +222,20 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
         cos_rank = len(cos_document) - rankdata(cos_document, method='average') + 1
         rank = [int(x) for x in cos_rank]
 
+        doc_term_matrix = build_inverted_index(result_list)
+        print('hasilllll', result_list)
+        query_string = ' '.join(arr_query)
+        ranking_table = document_ranking_inverted(query_string, doc_term_matrix['doc_inverse_index'])
+
         import re
         pattern = r'\b(NOT|OR|AND)\b'
 
-        
-
+    
         if boolean_value_checkbox is not None:
             if re.search(pattern, search_word):
                 # print("Kata ditemukan!")
                 boolean = main_co(search_word, documents)
+                
             else:
                 boolean = {
                     'doc': ' [tidak ada dokumen yg cocok] ',
@@ -242,7 +252,7 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
                 'v_q': v_q, 'v_d1': v_d1, 'v_d2': v_d2, 'v_d3': v_d3, 'sqrt_q': sqrt_q, 'sqrt_d1': sqrt_d1, 'sqrt_d2': sqrt_d2, 'sqrt_d3': sqrt_d3,
                 'vsm_d1': vsm_d1, 'vsm_d2': vsm_d2, 'vsm_d3': vsm_d3, 'sum_vsm_d1': sum_vsm_d1, 'sum_vsm_d2': sum_vsm_d2, 'sum_vsm_d3': sum_vsm_d3,
                 'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_document': cos_document, 'cos_rank': rank, 'boolean': boolean, 
-                'vsm_value': vsm_value, 'boolean_value_checkbox':boolean_value_checkbox}    
+                'vsm_value': vsm_value, 'boolean_value_checkbox':boolean_value_checkbox, 'doc_term_matrix': doc_term_matrix, 'ranking_table':ranking_table}    
     
     else:
         cos_d1 = 0

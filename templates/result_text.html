@@ -205,6 +205,53 @@
                 </div>
             </div>
 
+            <div class="card m-lg-4" {% if result.inverted_value_checkbox is not none %} {% else %} hidden {% endif %}>
+                <div class="card-header table-name">
+                    Inverted Index Result
+                    <table class="tg" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Kata</th>
+                                <th>Dokumen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in range(0, result.doc_term_matrix.inverted_list|length): %}
+                            <tr>
+                                <td>{{ result.doc_term_matrix.inverted_list[i].kata }}</td>
+                                <td>{{ result.doc_term_matrix.inverted_list[i].dokumen }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card m-lg-4" {% if result.inverted_value_checkbox is not none %} {% else %} hidden {% endif %}>
+                <div class="card-header table-name">
+                    Inverted Index Ranking
+                    <table class="tg" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Dokumen</th>
+                                <th>Skor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for index, row in result.ranking_table.iterrows() %}
+                            <tr>
+                                <td>{{ index }}</td>
+                                <td>{{ row['Document'] }}</td>
+                                <td>{{ row['Score'] }}</td>
+                            </tr>
+                            {% endfor %}
+                            <!-- <td>{{ result.ranking_table }}</td> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div {% if result.vsm_value is not none %} {% else %} hidden {% endif %}>
                 <div id="rank" {% if result.cos_rank=='x' %} hidden {% endif %}>
                     <div class="card m-lg-4">

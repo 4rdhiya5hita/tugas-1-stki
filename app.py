@@ -53,6 +53,7 @@ def data_result():
         porter_value = request.form.get('checkbox3')
         vsm_value = request.form.get('checkbox4')
         boolean_value_checkbox = request.form.get('checkbox5')
+        inverted_value_checkbox = request.form.get('checkbox6')
 
         input_text1 = request.form['input_text1']
         input_text2 = request.form['input_text2']
@@ -71,7 +72,7 @@ def data_result():
         if(vsm_value == 'None'):
             result = main_co(search_word, documents)
         else:           
-            result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word, documents, vsm_value, boolean_value_checkbox)
+            result = document_retrieval(stop_word_value, wnl_value, porter_value, input_text1, input_text2, input_text3, search_word, documents, vsm_value, boolean_value_checkbox, inverted_value_checkbox)
 
         return render_template('result_text.html', result=result, input_text=documents)    
     
@@ -89,6 +90,7 @@ def data_result_txt():
         porter_value = request.form.get('checkbox3')
         vsm_value = request.form.get('checkbox4')
         boolean_value_checkbox = request.form.get('checkbox5')
+        inverted_value_checkbox = request.form.get('checkbox6')
 
         # reading file proccess
         file1 = request.files['myfile1']
