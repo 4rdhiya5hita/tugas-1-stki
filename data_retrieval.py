@@ -17,7 +17,14 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
     arr_doc2 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc2)
     arr_doc3 = preprocessing(stop_word_value, wnl_value, porter_value, input_doc3)    
     token_array = list(set(arr_doc1 + arr_doc2 + arr_doc3))
-    
+
+    # for word in token_array:
+    #     for search in arr_query[:]:
+    #         if search not in word:
+    #             arr_query.remove(search)                
+                # index_search = arr_query.index(search)
+                # del arr_query[:index_search+1]
+
     count1 = 0
     for word in arr_doc1:
         for search in arr_query:
@@ -218,15 +225,17 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
             else:
                 boolean = {
                     'doc': ' [tidak ada dokumen yg cocok] ',
-                    'text': 'X X X X X'
+                    'text': 'X X X X X',
+                    'hasil_boolean': 'X X X X X'
                 }
         else:
             boolean = {
                 'doc': ' [tidak ada dokumen yg cocok] ',
-                'text': 'X X X X X'
+                'text': 'X X X X X',
+                'hasil_boolean': 'X X X X X'
             }
         
-        return {'arr_query':arr_query, 'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
+        return {'arr_query':arr_query, 'arr_doc1': arr_query, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
                 'token_array': token_array, 'q': q, 'd1': d1_count, 'd2': d2_count, 'd3': d3_count, 'df': df, 'D': D, 'log': log, 'log_1': log_1, 'w_q': w_q, 'w_d1': w_d1, 'w_d2': w_d2, 'w_d3': w_d3,
                 'v_q': v_q, 'v_d1': v_d1, 'v_d2': v_d2, 'v_d3': v_d3, 'sqrt_q': sqrt_q, 'sqrt_d1': sqrt_d1, 'sqrt_d2': sqrt_d2, 'sqrt_d3': sqrt_d3,
                 'vsm_d1': vsm_d1, 'vsm_d2': vsm_d2, 'vsm_d3': vsm_d3, 'sum_vsm_d1': sum_vsm_d1, 'sum_vsm_d2': sum_vsm_d2, 'sum_vsm_d3': sum_vsm_d3,
@@ -241,7 +250,8 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
         rank = 'x'
         boolean = {
             'doc': ' [tidak ada dokumen yg cocok] ',
-            'text': 'X X X X X'
+            'text': 'X X X X X',
+            'hasil_boolean': 'X X X X X'
         }
         
         return {'arr_query':arr_query, 'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 

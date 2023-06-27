@@ -5,6 +5,7 @@ from nltk.stem import PorterStemmer
 import pandas as pd
 from nltk.corpus import stopwords
 import re
+# from data_retrieval import preprocessing as pre
 # Data contoh
 # documents = {
 #     1: "Blue is my favorite color",
@@ -29,6 +30,20 @@ def calculate_tf(documents):
         tokenized_docs[doc_id] = stemmed_tokens
         fd = FreqDist(stemmed_tokens)
         tf_table[doc_id] = fd
+
+    # # documents = pre(documents)
+    # tokenized_docs = documents
+    # fd = FreqDist(documents)
+    # tf_table[doc_id] = fd
+
+    # for doc_id, doc_text in documents:
+    #     # Lakukan tokenisasi pada doc_text dan simpan hasilnya dalam variabel tokenized_doc
+    #     tokenized = word_tokenize(doc_text)  # Gantikan "tokenize" dengan fungsi tokenisasi yang sesuai
+
+    #     # Simpan hasil tokenisasi dalam tokenized_docs menggunakan doc_id sebagai kunci
+    #     tokenized_docs[doc_id] = tokenized
+    #     fd = FreqDist(documents)
+    #     tf_table[doc_id] = fd
     
     # Menggabungkan semua term unik dalam semua dokumen
     all_terms = set()
@@ -36,7 +51,7 @@ def calculate_tf(documents):
         all_terms.update(tokens)
 
     # Membuat dataframe untuk tabel term frequency
-    tf_df = pd.DataFrame(columns=['Term'] + list(documents.keys()))
+    tf_df = pd.DataFrame(columns=['Term'] + list(tokenized_docs.keys()))
     
     tabel_tf = []
     for term in all_terms:
@@ -47,6 +62,8 @@ def calculate_tf(documents):
         tabel_tf.append(tf_values)
     tf_df['Binary_Total'] = tf_df.iloc[:, 1:].apply(lambda x: ''.join(map(str, x)), axis=1)
 
+    # print("Result tokenized_docs: ", tokenized_docs)
+    # print(' ')
     # print("Result all_terms: ", all_terms)
     # print(' ')
     # print("Result tf_values: ", tabel_tf)
@@ -71,6 +88,7 @@ def documents_containing_term(term, tf_df):
     else:
         result = tf_df.loc[tf_df['Term'] == term_lower, 'Binary_Total'].values
         return result[0] if len(result) > 0 else None
+    
 
 #langsung mengubah query menjadi biner
 
@@ -143,8 +161,9 @@ def main_co(query, documents):
     query = query
     query_terms = re.findall(r'\(|\)|\w+|\S+\s*', query)
     binary_values = [documents_containing_term(term, tf_df) or term for term in query_terms]
+
     results = boolean_retrieval(binary_values)
-    matching_documents = [doc_id for doc_id, result in enumerate(results['result'], start=1) if result == '1']
+    matching_documents = [doc_id for doc_id, result in enumerate(results['result'], start=1) if result == '1']    
 
     documents_list = list(documents)
     matching_documents_list = list(map(str, matching_documents))
@@ -160,19 +179,22 @@ def main_co(query, documents):
         'binary_values': binary_values
         # 'text': [documents[id] for id in matching_documents if id in documents]
     }
+
     
     #documents[doc_id] for doc_id in matching_documents if doc_id in documents
     # print("Result boolean: ", result)
     # print(' ')
-    # print("Result tf_df: ", tf_df)
-    # print(' ')
-    # print("Result binary_values: ", binary_values)
-    # print(' ')
+    print("Result documents: ", documents)
+    print(' ')
+    print("Result tf_df: ", tf_df)
+    print(' ')
+    print("Result binary_values: ", binary_values)
+    print(' ')
 
     return result
     # return result
 
-# main_co("dog OR mom AND kitchen", {'1':'Mom making dinner in the kitchen then cooking again after dinner', '2':'It was thought by the dog that it was actually a groundhog.', '3':'Mother cooking in the kitchen'})
+# main_co("dog AND kitchen", {'1':'Mom making dinner in the kitchen then cooking again after dinner', '2':'It was thought by the dog that it was actually a groundhog.', '3':'Mother cooking in the kitchen'})
    
 # def main_co(query, documents):
 

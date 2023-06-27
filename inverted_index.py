@@ -181,6 +181,7 @@ def document_ranking_inverted(query, inverted_index):
         ranking_table.loc[len(ranking_table)] = ['Doc_' + str(doc), score]
 
     return ranking_table
+
 stoppick = 'y'
                 
 # Pilihan menu
