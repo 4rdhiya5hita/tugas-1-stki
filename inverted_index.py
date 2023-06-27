@@ -45,7 +45,7 @@ def preprosess(text, stoptog):
     return words_tokens
 
 
-# Incident Matrix
+# Incidence Matrix
 def build_incident_matrix():
     # Preprocessing masing-masing doc
     docs_pros = []
@@ -70,7 +70,7 @@ def build_incident_matrix():
     print("Unique Terms :")
     print(unique_terms, "\n")
 
-    # Membuat incident matrix
+    # Membuat Incidence matrix
     doc_term_matrix = {}
     for term in unique_terms:
         doc_term_matrix[term] = []
@@ -80,7 +80,7 @@ def build_incident_matrix():
                 doc_term_matrix[term].append(1)
             else: doc_term_matrix[term].append(0)
 
-    # Menampilkan incident matrix
+    # Menampilkan Incidence matrix
     df = pd.DataFrame(doc_term_matrix)
     df = df.rename(index=lambda x: "Doc_" + str(x+1))
     print("Matrix :")
@@ -185,7 +185,7 @@ stoppick = 'y'
                 
 # Pilihan menu
 print("Please choose between 2 menu below:")
-print("1. Incident matrix")
+print("1. Incidence matrix")
 print("2. Inverted index")
 mode = input("Enter your choice: ")
 print('')
@@ -205,7 +205,7 @@ if mode == "1":
         query = input("Masukkan query: ")
         ranking_table = document_ranking(query, doc_term_matrix)
 
-        print("\nQuery Ranking (Incident Matrix):")
+        print("\nQuery Ranking (Incidence Matrix):")
         print(ranking_table)
 
         # Tanya pengguna apakah ingin melakukan query ranking lainnya atau memilih mode pilihan 1 atau 2
