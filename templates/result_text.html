@@ -65,20 +65,38 @@
         .outlined-text {
             color: #fff;
             /* Warna teks */
-            -webkit-text-stroke: 0.5px #777777;
+            -webkit-text-stroke: 1.5px #777777;
             /* Lebar dan warna border */
-            font-size: 30pt;
+            font-size: 32pt;
             font-weight: bold;
         }
     </style>
+
+    <script>
+        function toggleVisibility(elementId, buttonId) {
+            var divElement = document.getElementById(elementId);
+            var divButton = document.getElementById(buttonId);
+            if (!divElement.hidden) {
+                divElement.hidden = true;
+                divButton.classList.remove("btn-primary");
+                divButton.classList.add("btn-danger");
+            } else {
+                divElement.hidden = false;
+                divButton.classList.remove("btn-danger");
+                divButton.classList.add("btn-primary");
+            }
+        }
+
+
+    </script>
 </head>
 
 <body>
     <div
         style="background-image: url('https://images.unsplash.com/photo-1650844228078-6c3cb119abcd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80'); background-size: cover; height: fit-content; padding-top:10px; padding-bottom:20px;">
-        <div class="container mt-lg-3">
+        <div class="container mt-lg-3" style="background-color: rgba(255, 255, 255, 0.5); border-radius: 20px;">
             <div class="row outlined-text align-items-center justify-content-center">
-                Result of Data Retrieval with Text as Document
+                Hasil Temu Kembali Informasi
             </div>
             <div class="card m-lg-4">
                 <div class="card-header table-name">
@@ -152,7 +170,36 @@
                 </div>
             </div>
 
-            <div {% if result.boolean_value_checkbox is not none %} {% else %} hidden {% endif %}>
+            <div class="card m-lg-4">
+                <div class="row m-3">
+                    <div class="col">
+                        <button id="toggleButtonBoolean" style="width: 100%;" class="btn btn-primary" type="button"
+                            onclick="toggleVisibility('divBoolean', 'toggleButtonBoolean')">
+                            Boolean
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button id="toggleButtonInverted" style="width: 100%;" class="btn btn-primary" type="button"
+                            onclick="toggleVisibility('divInverted', 'toggleButtonInverted')">
+                            Inverted
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button id="toggleButtonTFSVM" style="width: 100%;" class="btn btn-primary" type="button"
+                            onclick="toggleVisibility('divTF-SVM', 'toggleButtonTFSVM')">
+                            TF-IDF & SVM
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button id="toggleButtonOkapi" style="width: 100%;" class="btn btn-primary" type="button"
+                            onclick="toggleVisibility('divOkapi', 'toggleButtonOkapi')">
+                            Okapi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divBoolean" {% if result.boolean_value_checkbox is not none %} {% else %} hidden {% endif %}>
                 <div class="card m-lg-4">
                     <div class="card-header table-name">
                         Boolean Result
@@ -271,56 +318,76 @@
                         </table>
                     </div>
                 </div>
-            </div>
 
-            <div class="card m-lg-4" {% if result.inverted_value_checkbox is not none %} {% else %} hidden {% endif %}>
-                <div class="card-header table-name">
-                    Inverted Index Result
-                    <table class="tg" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Kata</th>
-                                <th>Dokumen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in range(0, result.doc_term_matrix.inverted_list|length): %}
-                            <tr>
-                                <td>{{ result.doc_term_matrix.inverted_list[i].kata }}</td>
-                                <td>{{ result.doc_term_matrix.inverted_list[i].dokumen }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="card m-lg-4" style="background-color: #EED202;">
+                    <br>
                 </div>
+
             </div>
 
-            <div class="card m-lg-4" {% if result.inverted_value_checkbox is not none %} {% else %} hidden {% endif %}>
-                <div class="card-header table-name">
-                    Inverted Index Ranking
-                    <table class="tg" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Index</th>
-                                <th>Dokumen</th>
-                                <th>Skor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for index, row in result.ranking_table.iterrows() %}
-                            <tr>
-                                <td>{{ index }}</td>
-                                <td>{{ row['Document'] }}</td>
-                                <td>{{ row['Score'] }}</td>
-                            </tr>
-                            {% endfor %}
-                            <!-- <td>{{ result.ranking_table }}</td> -->
-                        </tbody>
-                    </table>
+
+
+            <div id="divInverted" {% if result.inverted_value_checkbox is not none %} {% else %} hidden {% endif%}>
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Inverted Index Result
+                    </div>
+                    <div class="row m-lg-4">
+                        <table class="tg">
+                            <thead>
+                                <tr>
+                                    <th>Kata</th>
+                                    <th>Dokumen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in range(0, result.doc_term_matrix.inverted_list|length): %}
+                                <tr {% if result.doc_term_matrix.inverted_list[i].kata in result.arr_query %}
+                                    style="font-weight: bold;" {% endif %}>
+                                    <td>{{ result.doc_term_matrix.inverted_list[i].kata }}</td>
+                                    <td>{{ result.doc_term_matrix.inverted_list[i].dokumen }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Inverted Index Ranking
+                    </div>
+                    <div class="row m-lg-4">
+                        <table class="tg">
+                            <thead>
+                                <tr>
+                                    <th>Index</th>
+                                    <th>Dokumen</th>
+                                    <th>Skor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for index, row in result.ranking_table.iterrows() %}
+                                <tr>
+                                    <td>{{ index }}</td>
+                                    <td>{{ row['Document'] }}</td>
+                                    <td>{{ row['Score'] }}</td>
+                                </tr>
+                                {% endfor %}
+                                <!-- <td>{{ result.ranking_table }}</td> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card m-lg-4" style="background-color: #EED202;">
+                    <br>
+                </div>
+
             </div>
 
-            <div {% if result.vsm_value is not none %} {% else %} hidden {% endif %}>
+
+            <div id="divTF-SVM" {% if result.vsm_value is not none %} {% else %} hidden {% endif %}>
                 <div id="rank" {% if result.cos_rank=='x' %} hidden {% endif %}>
                     <div class="card m-lg-4">
                         <div class="card-header table-name">
@@ -365,7 +432,7 @@
 
                     <div class="card m-lg-4">
                         <div class="card-header table-name">
-                            Perhitungan Jarak Antar Dokumen
+                            Perhitungan Term Weighting TF-IDF Part 2
                         </div>
                         <div class="row m-lg-4">
                             <table class="tg">
@@ -373,13 +440,90 @@
                                     <tr>
                                         <th class="tg-0pky" rowspan="2">Token</th>
                                         <th class="tg-0pky" colspan="4">W (Weighting)</th>
-                                        <th class="tg-0pky" colspan="4">Vector Calculation of the Query</th>
                                     </tr>
                                     <tr>
                                         <th class="tg-0pky">Q</th>
                                         <th class="tg-0pky">D1</th>
                                         <th class="tg-0pky">D2</th>
                                         <th class="tg-0pky">D3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in range(result.token_array|length) %}
+                                    <tr {% if result.token_array[i] in result.arr_query %}
+                                        style="font-weight: bold; color: #fff; background-color: rgb(32, 117, 197);" {%
+                                        endif %}>
+                                        <td class="tg-0pky">{{ result.token_array[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_q[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_d1[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_d2[i] }}</td>
+                                        <td class="tg-0pky">{{ result.w_d3[i] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- <tr>
+                                    <td class="tg-5hyj" colspan="5"></td>
+                                    <td class="tg-0pky" style="font-weight: bold;" colspan="4">Jarak Antar Dokumen</td>
+                                </tr> -->
+                                    <tr>
+                                        <td class="tg-5hyj" colspan="2"></td>
+                                        <td class="tg-0pky" style="font-weight: bold;" colspan="3">Sum(Di)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-8m24"></td>
+                                        <td class="tg-5hyj"></td>
+                                        <td class="tg-0pky">{{ result.rank_tf_idf_d1 }}</td>
+                                        <td class="tg-0pky">{{ result.rank_tf_idf_d2 }}</td>
+                                        <td class="tg-0pky">{{ result.rank_tf_idf_d3 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card m-lg-4">
+                        <div class="card-header table-name">
+                            Tabel Perankingan TF-IDF
+                        </div>
+                        <div class="row m-lg-4">
+                            <table class="tg">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>D1</th>
+                                        <th>D2</th>
+                                        <th>D3</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr>
+                                        <td>Sum TF-IDF</td>
+                                        <td>{{ result.rank_tf_idf_d1 }}</td>
+                                        <td>{{ result.rank_tf_idf_d2 }}</td>
+                                        <td>{{ result.rank_tf_idf_d3 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rank</td>
+                                        {% for i in range(result.rank_final_tf|length) %}
+                                        <td>{{ result.rank_final_tf[i] }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card m-lg-4">
+                        <div class="card-header table-name">
+                            Perhitungan Jarak Antar Dokumen
+                        </div>
+                        <div class="row m-lg-4">
+                            <table class="tg">
+                                <thead>
+                                    <tr>
+                                        <th class="tg-0pky" colspan="5">Vector Calculation of the Query</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tg-0pky">Token</th>
                                         <th class="tg-0pky">Q<sup>2</sup></th>
                                         <th class="tg-0pky">D1<sup>2</sup></th>
                                         <th class="tg-0pky">D2<sup>2</sup></th>
@@ -390,10 +534,6 @@
                                     {% for i in range(result.token_array|length) %}
                                     <tr>
                                         <td class="tg-0pky">{{ result.token_array[i] }}</td>
-                                        <td class="tg-0pky">{{ result.w_q[i] }}</td>
-                                        <td class="tg-0pky">{{ result.w_d1[i] }}</td>
-                                        <td class="tg-0pky">{{ result.w_d2[i] }}</td>
-                                        <td class="tg-0pky">{{ result.w_d3[i] }}</td>
                                         <td class="tg-0pky">{{ result.v_q[i] }}</td>
                                         <td class="tg-0pky">{{ result.v_d1[i] }}</td>
                                         <td class="tg-0pky">{{ result.v_d2[i] }}</td>
@@ -405,15 +545,11 @@
                                     <td class="tg-0pky" style="font-weight: bold;" colspan="4">Jarak Antar Dokumen</td>
                                 </tr> -->
                                     <tr>
-                                        <td class="tg-5hyj" colspan="5"></td>
+                                        <td class="tg-5hyj" colspan="1"></td>
                                         <td class="tg-0pky" style="font-weight: bold;" colspan="1">Sqrt(Q)</td>
                                         <td class="tg-0pky" style="font-weight: bold;" colspan="3">Sqrt(Di)</td>
                                     </tr>
                                     <tr>
-                                        <td class="tg-8m24"></td>
-                                        <td class="tg-8m24"></td>
-                                        <td class="tg-8m24"></td>
-                                        <td class="tg-8m24"></td>
                                         <td class="tg-5hyj"></td>
                                         <td class="tg-0pky">{{ result.sqrt_q }}</td>
                                         <td class="tg-0pky">{{ result.sqrt_d1 }}</td>
@@ -483,7 +619,7 @@
 
                     <div class="card m-lg-4">
                         <div class="card-header table-name">
-                            Tabel Perankingan Berdasarkan Cosine
+                            Tabel Perankingan SVM
                         </div>
                         <div class="row m-lg-4">
                             <table class="tg">
@@ -513,40 +649,118 @@
                         </div>
                     </div>
                 </div>
+
+                <div {% if result.vsm_value is not none %} {% else %} hidden {% endif %}>
+                    <div id="rank" {% if result.cos_rank !='x' %} hidden {% endif %}>
+                        <div class="card m-lg-4">
+                            <div class="card-header table-name">
+                                Tabel Perankingan Berdasarkan Cosine
+                            </div>
+                            <div class="row m-lg-4">
+                                <table class="tg">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>D1</th>
+                                            <th>D2</th>
+                                            <th>D3</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align: center;">
+                                        <tr>
+                                            <td>Cosine</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rank</td>
+                                            <td>X</td>
+                                            <td>X</td>
+                                            <td>X</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card m-lg-4" style="background-color: #EED202;">
+                    <br>
+                </div>
+
             </div>
 
-            <div {% if result.vsm_value is not none %} {% else %} hidden {% endif %}>
-                <div id="rank" {% if result.cos_rank !='x' %} hidden {% endif %}>
-                    <div class="card m-lg-4">
-                        <div class="card-header table-name">
-                            Tabel Perankingan Berdasarkan Cosine
-                        </div>
-                        <div class="row m-lg-4">
-                            <table class="tg">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>D1</th>
-                                        <th>D2</th>
-                                        <th>D3</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center;">
-                                    <tr>
-                                        <td>Cosine</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rank</td>
-                                        <td>X</td>
-                                        <td>X</td>
-                                        <td>X</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+
+
+            <div id="divOkapi">
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Algoritma Okapi BM25 Rumus IDF 1
+                    </div>
+                    <div class="row m-lg-4">
+                        <blockquote class="blockquote">
+                            <i class="fa fa-quote-left">
+                                <p>Rumus: </p>
+                            </i>
+                        </blockquote>
+                        <table class="tg">
+                            <tbody>
+                                <tr>
+                                    <td>Hasil 1</td>
+                                </tr>
+                                <tr>
+                                    <td>Hasil 2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Algoritma Okapi BM25 Rumus IDF 2
+                    </div>
+                    <div class="row m-lg-4">
+                        <blockquote class="blockquote">
+                            <i class="fa fa-quote-left">
+                                <p>Rumus: </p>
+                            </i>
+                        </blockquote>
+                        <table class="tg">
+                            <tbody>
+                                <tr>
+                                    <td>Hasil 1</td>
+                                </tr>
+                                <tr>
+                                    <td>Hasil 2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card m-lg-4">
+                    <div class="card-header table-name">
+                        Algoritma Okapi BM25 Rumus IDF 3
+                    </div>
+                    <div class="row m-lg-4">
+                        <blockquote class="blockquote">
+                            <i class="fa fa-quote-left">
+                                <p>Rumus: </p>
+                            </i>
+                        </blockquote>
+                        <table class="tg">
+                            <tbody>
+                                <tr>
+                                    <td>Hasil 1</td>
+                                </tr>
+                                <tr>
+                                    <td>Hasil 2</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

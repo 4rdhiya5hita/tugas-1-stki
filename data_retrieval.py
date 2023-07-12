@@ -109,6 +109,7 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
             d3_count.append(0)
 
             # match_word.append(word)
+    
 
     # CEK APAKAH KATA YANG DICARI ADA DALAM DOKUMEN
     if 1 in q:
@@ -220,6 +221,29 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
         cos_rank = len(cos_document) - rankdata(cos_document, method='average') + 1
         rank = [int(x) for x in cos_rank]
 
+
+        index_1 = []
+        index_2 = []
+        index_3 = []
+
+        for word in token_array:
+            if word in arr_query:
+                index = token_array.index(word)
+                index_1.append(w_d1[index])
+                index_2.append(w_d2[index])
+                index_3.append(w_d3[index])
+
+        result_rank = []
+        rank_tf_idf_d1 = format(sum(float(x) for x in index_1), ".3f")
+        result_rank.append(rank_tf_idf_d1)
+        rank_tf_idf_d2 = format(sum(float(x) for x in index_2), ".3f")
+        result_rank.append(rank_tf_idf_d2)
+        rank_tf_idf_d3 = format(sum(float(x) for x in index_3), ".3f")
+        result_rank.append(rank_tf_idf_d3)
+
+        rank_sum_tf = len(result_rank) - rankdata(result_rank, method='average') + 1
+        rank_final_tf = [int(x) for x in rank_sum_tf]
+
         doc_term_matrix = build_inverted_index(result_list)
         print('hasilllll', result_list)
         query_string = ' '.join(arr_query)
@@ -246,10 +270,11 @@ def document_retrieval (stop_word_value, wnl_value, porter_value, input_doc1, in
                 'hasil_boolean': 'X X X X X'
             }
         
-        return {'arr_query':arr_query, 'arr_doc1': arr_query, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
+        return {'arr_query':arr_query, 'arr_doc1': arr_doc1, 'arr_doc2': arr_doc2, 'arr_doc3': arr_doc3, 'count1': count1, 'count2': count2, 'count3': count3, 'search_word': search_word, 
                 'token_array': token_array, 'q': q, 'd1': d1_count, 'd2': d2_count, 'd3': d3_count, 'df': df, 'D': D, 'log': log, 'log_1': log_1, 'w_q': w_q, 'w_d1': w_d1, 'w_d2': w_d2, 'w_d3': w_d3,
                 'v_q': v_q, 'v_d1': v_d1, 'v_d2': v_d2, 'v_d3': v_d3, 'sqrt_q': sqrt_q, 'sqrt_d1': sqrt_d1, 'sqrt_d2': sqrt_d2, 'sqrt_d3': sqrt_d3,
                 'vsm_d1': vsm_d1, 'vsm_d2': vsm_d2, 'vsm_d3': vsm_d3, 'sum_vsm_d1': sum_vsm_d1, 'sum_vsm_d2': sum_vsm_d2, 'sum_vsm_d3': sum_vsm_d3,
+                'rank_tf_idf_d1': rank_tf_idf_d1, 'rank_tf_idf_d2': rank_tf_idf_d2, 'rank_tf_idf_d3': rank_tf_idf_d3, 'rank_final_tf': rank_final_tf,
                 'cos_d1': cos_d1, 'cos_d2': cos_d2, 'cos_d3': cos_d3, 'cos_document': cos_document, 'cos_rank': rank, 'boolean': boolean, 
                 'vsm_value': vsm_value, 'boolean_value_checkbox':boolean_value_checkbox, 'doc_term_matrix': doc_term_matrix, 'ranking_table':ranking_table,
                 'd1_bool':d1_bool, 'd2_bool':d2_bool, 'd3_bool':d3_bool}
